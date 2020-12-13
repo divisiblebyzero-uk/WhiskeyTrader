@@ -1,0 +1,30 @@
+<table>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Whiskey
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    <tr *ngFor="let price of prices">
+        <td>
+            {{price.id}}
+        </td>
+        <td>
+            {{getWhiskeyName(price.whiskeyId)}}
+        </td>
+        <td>
+            {{price.date | date: 'MMM-yy'}}
+        </td>
+        <td>
+            {{price.price | currency: 'EUR'}}
+        </td>
+    </tr>
+</table>

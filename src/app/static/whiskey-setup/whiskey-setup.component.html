@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Whiskey
+        </th>
+    </tr>
+    <tr *ngFor="let whiskey of whiskeys">
+        <td>
+            {{whiskey.id}}
+        </td>
+        <td>
+            {{whiskey.name}}
+        </td>
+    </tr>
+</table>
