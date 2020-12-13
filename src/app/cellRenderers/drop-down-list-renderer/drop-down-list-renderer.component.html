@@ -1,0 +1,7 @@
+<div class="dropDownList">
+    <div class="dropDownListItem" *ngFor="let item of items" (click)="selectItem(item.id)"
+
+        [ngClass]="{'dropDownListSelectedItem': item.id == selectedItemID}" >
+        {{ item.name }}
+    </div>
+</div>

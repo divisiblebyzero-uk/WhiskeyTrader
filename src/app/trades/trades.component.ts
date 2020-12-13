@@ -5,7 +5,7 @@ import { WhiskeyDataService } from '../whiskey-data.service';
 @Component({
   selector: 'app-trades',
   templateUrl: './trades.component.html',
-  styleUrls: ['./trades.component.sass']
+  styleUrls: ['./trades.component.scss']
 })
 export class TradesComponent implements OnInit {
 

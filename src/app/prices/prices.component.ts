@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { GridOptions } from 'ag-grid-community';
+import { GridOptions, ValueGetterParams, ValueSetterParams } from 'ag-grid-community';
 import { Whiskey, WhiskeyPrice } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
+import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
 
 @Component({
   selector: 'app-prices',
   templateUrl: './prices.component.html',
-  styleUrls: ['./prices.component.sass']
+  styleUrls: ['./prices.component.scss']
 })
 export class PricesComponent implements OnInit {
+
+  // With help from https://www.codeproject.com/Articles/5266363/agGrid-for-Angular-The-Missing-Manual
 
   constructor(private data: WhiskeyDataService) {
   }
 
-  frameworkComponents = {
-    dateTimeRenderer: DateTimeRenderer
-  }
   prices: WhiskeyPrice[] | null = null;
 
   public getWhiskeyName(whiskeyId: number): string {
@@ -35,10 +35,13 @@ export class PricesComponent implements OnInit {
   rowData: WhiskeyPrice[] | null = null;
 
   columnDefs = [
-    { field: 'id', sortable: true, filter: true },
-    { headerName: 'Whiskey Name', field: 'whiskeyId', sortable: true, filter: true },
-    { field: 'date', sortable: true, filter: true, cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy' },
-    { field: 'price', sortable: true, filter: true }
+    { field: 'id' },
+    { headerName: 'Whiskey Name', field: 'whiskeyId',
+      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys(),
+      valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
+    },
+    { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy' },
+    { field: 'price' }
   ];
 
   gridOptions = {
@@ -49,7 +52,10 @@ export class PricesComponent implements OnInit {
       editable: true
     },
     onFirstDataRendered: this.onFirstDataRendered,
-    frameworkComponents: { dateTimeRenderer: DateTimeRenderer }
+    frameworkComponents: { 
+      dateTimeRenderer: DateTimeRenderer,
+      dropDownListRendererComponent: DropDownListRendererComponent
+     }
   };
 
   onFirstDataRendered(params:any) {

@@ -5,7 +5,7 @@ import { WhiskeyDataService } from '../whiskey-data.service';
 @Component({
   selector: 'app-holdings',
   templateUrl: './holdings.component.html',
-  styleUrls: ['./holdings.component.sass']
+  styleUrls: ['./holdings.component.scss']
 })
 export class HoldingsComponent implements OnInit {
   constructor(private data: WhiskeyDataService) { }

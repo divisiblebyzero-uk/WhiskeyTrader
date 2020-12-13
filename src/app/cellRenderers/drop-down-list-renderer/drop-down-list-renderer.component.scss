@@ -1,0 +1,17 @@
+.dropDownList {
+    max-height:300px;
+    min-width:220px;
+    min-height:200px;
+    overflow-y: auto;
+}
+.dropDownListItem {
+    padding: 8px 10px;
+}
+.dropDownListItem:hover {
+    cursor:pointer;
+    background-color: rgba(33, 150, 243, 0.9);
+}
+.dropDownListSelectedItem {
+    /* Whichever is our selected item, highlight it, and KEEP IT highlighted ! */
+    background-color: rgba(33, 150, 243, 0.3) !important;
+}

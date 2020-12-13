@@ -5,7 +5,7 @@ import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 @Component({
   selector: 'app-whiskey-setup',
   templateUrl: './whiskey-setup.component.html',
-  styleUrls: ['./whiskey-setup.component.sass']
+  styleUrls: ['./whiskey-setup.component.scss']
 })
 export class WhiskeySetupComponent implements OnInit {
 
