@@ -13,6 +13,15 @@ export class WhiskeyDataService {
     return WHISKEYS;
   }
 
+  public saveWhiskey(whiskey: Whiskey): void {
+    
+  }
+
+  public addNewWhiskey(whiskeyName: string): Whiskey {
+    const currentMaxId = Math.max.apply(Math, WHISKEYS.map(w => w.id));
+    return { id: currentMaxId+1, name: whiskeyName };
+  }
+
   public getWhiskeyPrices(): WhiskeyPrice[] {
     return WHISKEY_PRICES;
   }

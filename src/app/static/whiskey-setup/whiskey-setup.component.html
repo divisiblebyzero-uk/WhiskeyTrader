@@ -1,18 +1,24 @@
-<table>
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Whiskey
-        </th>
-    </tr>
-    <tr *ngFor="let whiskey of whiskeys">
-        <td>
-            {{whiskey.id}}
-        </td>
-        <td>
-            {{whiskey.name}}
-        </td>
-    </tr>
-</table>
+<div class="container-fluid">
+    <div class="col-md-10 offset-md-1" style="background-color: antiquewhite; padding-top: 10px; padding-bottom: 10px;">
+        <div class="col">
+            <span class="display-4">Whiskeys</span>
+            <fa-icon size="2x" title="Add Whiskey" [icon]="faPlus" (click)="addNewWhiskey()" style="cursor: pointer;"></fa-icon>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <ag-grid-angular
+                #pricesGrid
+                style="height: 500px;"
+                class="ag-theme-alpine"
+                [rowData]="rowData"
+                [columnDefs]="columnDefs"
+                [gridOptions]="gridOptions"
+                (cellValueChanged)="saveEntry($event)"
+            >
+            </ag-grid-angular>
+        </div>
+    </div>
+</div>
+
+{{rowData|json}}

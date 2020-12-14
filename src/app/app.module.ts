@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { AgGridModule } from 'ag-grid-angular';
 import { DateTimeRenderer } from './cellRenderers/DateTimeRenderer';
 
@@ -26,7 +28,8 @@ import { DropDownListRendererComponent } from './cellRenderers/drop-down-list-re
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent])
+    AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent]),
+    FontAwesomeModule
 
   ],
   providers: [],
