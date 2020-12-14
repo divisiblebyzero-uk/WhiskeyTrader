@@ -19,7 +19,7 @@ export class PricesComponent implements OnInit {
 
   prices: WhiskeyPrice[] | null = null;
 
-  public getWhiskeyName(whiskeyId: number): string {
+  public getWhiskeyName(whiskeyId: string): string {
     return this.data.getWhiskeyName(whiskeyId);
   }
 

@@ -14,6 +14,8 @@ import { HoldingsComponent } from './holdings/holdings.component';
 import { PricesComponent } from './prices/prices.component';
 import { WhiskeySetupComponent } from './static/whiskey-setup/whiskey-setup.component';
 import { DropDownListRendererComponent } from './cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
+import { AdminComponent } from './static/admin/admin.component';
+import { DeleteButtonComponent } from './cellRenderers/delete-button/delete-button.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,15 @@ import { DropDownListRendererComponent } from './cellRenderers/drop-down-list-re
     HoldingsComponent,
     PricesComponent,
     WhiskeySetupComponent,
-    DropDownListRendererComponent
+    DropDownListRendererComponent,
+    AdminComponent,
+    DeleteButtonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent]),
+    AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent, DeleteButtonComponent]),
     FontAwesomeModule
 
   ],

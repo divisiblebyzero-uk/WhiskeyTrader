@@ -20,7 +20,7 @@ export class HoldingsComponent implements OnInit {
     this.positions = this.data.getWhiskeyPositions();
   }
 
-  getWhiskeyName(whiskeyId: number): string {
+  getWhiskeyName(whiskeyId: string): string {
     return this.data.getWhiskeyName(whiskeyId);
   }
 

@@ -3,6 +3,7 @@ import { Whiskey } from 'src/app/entities';
 import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { GridOptions } from 'ag-grid-community';
+import { DeleteButtonComponent } from 'src/app/cellRenderers/delete-button/delete-button.component';
 
 @Component({
   selector: 'app-whiskey-setup',
@@ -18,7 +19,8 @@ export class WhiskeySetupComponent implements OnInit {
 
   columnDefs = [
     { field: 'id' },
-    { field: 'name' }
+    { field: 'name' },
+    { cellRenderer: 'deleteButtonRendererComponent'}
   ];
 
   ngOnInit(): void {
@@ -26,7 +28,7 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   getWhiskeys(): void {
-    this.rowData = this.data.getWhiskeys();
+    this.rowData = this.data.getWhiskeys().filter(w => w.active);
   }
 
   gridOptions:GridOptions = {
@@ -37,7 +39,11 @@ export class WhiskeySetupComponent implements OnInit {
       editable: true
     },
     onFirstDataRendered: this.onFirstDataRendered,
-    api: null
+    api: null,
+    frameworkComponents: { 
+      deleteButtonRendererComponent: DeleteButtonComponent
+     },
+    context: { componentParent: this }
   };
 
   onFirstDataRendered(params:any) {
@@ -52,6 +58,12 @@ export class WhiskeySetupComponent implements OnInit {
   public addNewWhiskey(): void {
     const newWhiskey = this.data.addNewWhiskey("Enter Whiskey name");
     this.gridOptions.api?.applyTransaction({ add: [newWhiskey] });
+  }
+
+  public deleteRow(whiskey: Whiskey): void {
+    console.log("Being asked to delete: " + JSON.stringify(whiskey));
+    this.data.deleteWhiskey(whiskey);
+    this.getWhiskeys();
   }
 
 }

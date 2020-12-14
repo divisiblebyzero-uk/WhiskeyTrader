@@ -1,5 +1,5 @@
 export interface WhiskeyTrade {
-    id: number,
+    id: string,
     whiskeyId: number,
     numberOfBottles: number,
     pricePerBottle: number,
@@ -8,7 +8,7 @@ export interface WhiskeyTrade {
 }
 
 export interface WhiskeyPosition {
-    id: number,
+    id: string,
     whiskeyId: number,
     numberOfBottles: number,
     totalPurchasePrice: number,
@@ -21,15 +21,16 @@ export interface WhiskeyPosition {
 }
 
 export interface WhiskeyPrice {
-    id: number,
+    id: string,
     whiskeyId: number,
     date: Date,
     price: number
 }
 
 export interface Whiskey {
-    id: number,
-    name: string
+    id: string,
+    name: string,
+    active: boolean
 }
 
 export enum Direction {
