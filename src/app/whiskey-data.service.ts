@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Whiskey, WhiskeyPosition, WhiskeyPrice, WhiskeyTrade } from './entities';
-import { WHISKEYS, WHISKEY_PRICES, WHISKEY_POSITIONS, WHISKEY_TRADES } from './mock-data';
+import { Direction, Whiskey, WhiskeyPosition, WhiskeyPrice, WhiskeyTrade } from './entities';
+import { WHISKEY_POSITIONS } from './mock-data';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,7 @@ export class WhiskeyDataService {
 
   private static readonly WHISKEYS_ITEM_KEY = 'whiskeys';
   private static readonly WHISKEY_PRICES_ITEM_KEY = 'whiskey-prices';
+  private static readonly WHISKEY_TRADES_ITEM_KEY = 'whiskey-trades';
 
   constructor() { }
 
@@ -70,11 +71,8 @@ export class WhiskeyDataService {
   }
 
   public saveWhiskeyPrice(whiskeyPrice: WhiskeyPrice): void {
-    let whiskeyPrices: WhiskeyPrice[] = this.getWhiskeyPrices();
-
-    whiskeyPrices = whiskeyPrices.filter(wp => wp.id != whiskeyPrice.id);
+    const whiskeyPrices: WhiskeyPrice[] = this.getWhiskeyPrices().filter(wp => wp.id != whiskeyPrice.id);
     whiskeyPrices.push(whiskeyPrice);
-
     this.saveWhiskeyPrices(whiskeyPrices);
   }
 
@@ -89,7 +87,7 @@ export class WhiskeyDataService {
   }
 
   public addNewWhiskeyPrice(whiskey: Whiskey): WhiskeyPrice {
-    let wp: WhiskeyPrice = { id: this.getNewId(), whiskeyId: whiskey.id, date: new Date(), price: 0, active: true };
+    const wp: WhiskeyPrice = { id: this.getNewId(), whiskeyId: whiskey.id, date: new Date(), price: 0, active: true };
     this.saveWhiskeyPrice(wp);
     return wp;
   }
@@ -99,7 +97,34 @@ export class WhiskeyDataService {
   }
 
   public getWhiskeyTrades(): WhiskeyTrade[] {
-    return WHISKEY_TRADES;
+    const jsonData = localStorage.getItem(WhiskeyDataService.WHISKEY_TRADES_ITEM_KEY);
+    if (jsonData) {
+      return JSON.parse(jsonData);
+    } else {
+      return [];
+    }
+  }
+
+  public addNewWhiskeyTrade(whiskey: Whiskey, numberOfBottles: number, price: number): WhiskeyTrade {
+    const wt: WhiskeyTrade = { id: this.getNewId(), whiskeyId: whiskey.id, numberOfBottles: numberOfBottles, pricePerBottle: price, date: new Date(), direction: Direction.Buy, active: true };
+    this.saveWhiskeyTrade(wt);
+    return wt;
+  }
+
+  public saveWhiskeyTrade(whiskeyTrade: WhiskeyTrade): void {
+    const whiskeyTrades: WhiskeyTrade[] = this.getWhiskeyTrades().filter(wt => wt.id != whiskeyTrade.id);
+    whiskeyTrades.push(whiskeyTrade);
+    this.saveWhiskeyTrades(whiskeyTrades);
+  }
+
+  public saveWhiskeyTrades(whiskeyTrades: WhiskeyTrade[]) {
+    const jsonData = JSON.stringify(whiskeyTrades);
+    localStorage.setItem(WhiskeyDataService.WHISKEY_TRADES_ITEM_KEY, jsonData);
+  }
+
+  public deleteWhiskeyTrade(whiskeyTrade: WhiskeyTrade): void {
+    whiskeyTrade.active = false;
+    this.saveWhiskeyTrade(whiskeyTrade);
   }
 
   public getWhiskeyName(whiskeyId: string): string {

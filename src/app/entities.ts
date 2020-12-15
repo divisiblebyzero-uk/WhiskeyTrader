@@ -4,7 +4,8 @@ export interface WhiskeyTrade {
     numberOfBottles: number,
     pricePerBottle: number,
     date: Date,
-    direction: Direction
+    direction: Direction,
+    active: boolean
 }
 
 export interface WhiskeyPosition {
