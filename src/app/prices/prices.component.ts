@@ -6,6 +6,7 @@ import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
+import { DatePickerRendererComponent } from '../cellRenderers/date-picker-renderer/date-picker-renderer.component';
 
 @Component({
   selector: 'app-prices',
@@ -43,7 +44,7 @@ export class PricesComponent implements OnInit {
       cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
       valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
     },
-    { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy' },
+    { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy', cellEditor: 'datePickerRendererComponent' },
     { field: 'price' },
     { cellRenderer: 'deleteButtonRendererComponent'}
   ];
@@ -59,7 +60,8 @@ export class PricesComponent implements OnInit {
     frameworkComponents: { 
       dateTimeRenderer: DateTimeRenderer,
       dropDownListRendererComponent: DropDownListRendererComponent,
-      deleteButtonRendererComponent: DeleteButtonComponent
+      deleteButtonRendererComponent: DeleteButtonComponent,
+      datePickerRendererComponent: DatePickerRendererComponent
      },
      context: { componentParent: this }
   };

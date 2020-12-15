@@ -21,7 +21,7 @@ export class TradesComponent implements OnInit {
     this.trades = this.data.getWhiskeyTrades();
   }
 
-  getWhiskeyName(whiskeyId: number): string {
+  getWhiskeyName(whiskeyId: string): string {
     return this.data.getWhiskeyName(whiskeyId);
   }
 }

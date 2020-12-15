@@ -16,6 +16,8 @@ import { WhiskeySetupComponent } from './static/whiskey-setup/whiskey-setup.comp
 import { DropDownListRendererComponent } from './cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
 import { AdminComponent } from './static/admin/admin.component';
 import { DeleteButtonComponent } from './cellRenderers/delete-button/delete-button.component';
+import { DatePickerRendererComponent } from './cellRenderers/date-picker-renderer/date-picker-renderer.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,15 +28,16 @@ import { DeleteButtonComponent } from './cellRenderers/delete-button/delete-butt
     WhiskeySetupComponent,
     DropDownListRendererComponent,
     AdminComponent,
-    DeleteButtonComponent
+    DeleteButtonComponent,
+    DatePickerRendererComponent    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent, DeleteButtonComponent]),
-    FontAwesomeModule
-
+    AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent, DeleteButtonComponent, DatePickerRendererComponent]),
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
