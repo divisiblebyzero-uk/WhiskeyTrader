@@ -4,3 +4,28 @@ Make sure you know what you're doing
 
 <button (click)="deleteAll()">Delete all data</button>
 <button (click)="generate()">Generate mock data</button>
+<button (click)="download()">Download data</button>
+<button *ngIf="!uploadShown" (click)="showUpload()">Upload data</button>
+<input *ngIf="uploadShown" type="file" class="upload" (change)="changeListener($event)">
+<br/>
+
+<div class="row">
+    <div class="col">
+        <h3>Whiskeys</h3>
+        <ul>
+            <li *ngFor="let w of whiskeys">{{w|json}}</li>
+        </ul>
+    </div>
+    <div class="col">
+        <h3>Whiskey Prices</h3>
+        <ul>
+            <li *ngFor="let wp of whiskeyPrices">{{wp|json}}</li>
+        </ul>
+    </div>
+    <div class="col">
+        <h3>Whiskey Trades</h3>
+        <ul>
+            <li *ngFor="let wt of whiskeyTrades">{{wt|json}}</li>
+        </ul>
+    </div>
+</div>

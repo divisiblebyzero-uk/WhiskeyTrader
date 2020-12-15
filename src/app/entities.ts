@@ -39,3 +39,9 @@ export enum Direction {
     Buy = 1,
     Sell = -1
 }
+
+export interface PersistencePayload {
+    whiskeys: Whiskey[],
+    whiskeyPrices: WhiskeyPrice[],
+    whiskeyTrades: WhiskeyTrade[]
+}
