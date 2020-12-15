@@ -22,9 +22,10 @@ export interface WhiskeyPosition {
 
 export interface WhiskeyPrice {
     id: string,
-    whiskeyId: number,
+    whiskeyId: string,
     date: Date,
-    price: number
+    price: number,
+    active: boolean
 }
 
 export interface Whiskey {

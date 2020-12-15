@@ -1,46 +1,23 @@
-<div class="row">
-    <div class="col-md-10 offset-md-1">
-        <h3>Prices</h3>
-        <ag-grid-angular
-            #pricesGrid
-            style="height: 500px;"
-            class="ag-theme-alpine"
-            [rowData]="rowData"
-            [columnDefs]="columnDefs"
-            [gridOptions]="gridOptions"
-        >
-        </ag-grid-angular>
+<div class="container-fluid">
+    <div class="col-md-10 offset-md-1" style="background-color: antiquewhite; padding-top: 10px; padding-bottom: 10px;">
+        <div class="col">
+            <span class="display-4">Whiskey Prices</span>
+            <fa-icon size="2x" title="Add Price" [icon]="faPlus" (click)="addNewWhiskeyPrice()" style="cursor: pointer;"></fa-icon>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <ag-grid-angular
+                #pricesGrid
+                style="height: 500px;"
+                class="ag-theme-alpine"
+                [rowData]="rowData"
+                [columnDefs]="columnDefs"
+                [gridOptions]="gridOptions"
+                (cellValueChanged)="saveEntry($event)"
+            >
+            </ag-grid-angular>
+        </div>
     </div>
 </div>
-
-
-<table>
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Whiskey
-        </th>
-        <th>
-            Date
-        </th>
-        <th>
-            Price
-        </th>
-    </tr>
-    <tr *ngFor="let price of prices">
-        <td>
-            {{price.id}}
-        </td>
-        <td>
-            {{getWhiskeyName(price.whiskeyId)}}
-        </td>
-        <td>
-            {{price.date | date: 'MMM-yy'}}
-        </td>
-        <td>
-            {{price.price | currency: 'EUR'}}
-        </td>
-    </tr>
-</table>
+{{rowData|json}}

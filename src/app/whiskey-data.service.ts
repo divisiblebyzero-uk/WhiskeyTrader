@@ -8,6 +8,7 @@ import { WHISKEYS, WHISKEY_PRICES, WHISKEY_POSITIONS, WHISKEY_TRADES } from './m
 export class WhiskeyDataService {
 
   private static readonly WHISKEYS_ITEM_KEY = 'whiskeys';
+  private static readonly WHISKEY_PRICES_ITEM_KEY = 'whiskey-prices';
 
   constructor() { }
 
@@ -45,11 +46,9 @@ export class WhiskeyDataService {
   }
 
   public addNewWhiskey(whiskeyName: string): Whiskey {
-    const whiskeys: Whiskey[] = this.getWhiskeys();
-    const newWhiskey: Whiskey = { id: this.getNewId(), name: whiskeyName, active: true };
-    whiskeys.push(newWhiskey);
-    this.saveWhiskeys(whiskeys);
-    return newWhiskey;
+    const w: Whiskey = { id: this.getNewId(), name: whiskeyName, active: true };
+    this.saveWhiskey(w);
+    return w;
   }
 
   public deleteAll(): void {
@@ -62,7 +61,37 @@ export class WhiskeyDataService {
   }
 
   public getWhiskeyPrices(): WhiskeyPrice[] {
-    return WHISKEY_PRICES;
+    const jsonData = localStorage.getItem(WhiskeyDataService.WHISKEY_PRICES_ITEM_KEY);
+    if (jsonData) {
+      return JSON.parse(jsonData);
+    } else {
+      return [];
+    }
+  }
+
+  public saveWhiskeyPrice(whiskeyPrice: WhiskeyPrice): void {
+    let whiskeyPrices: WhiskeyPrice[] = this.getWhiskeyPrices();
+
+    whiskeyPrices = whiskeyPrices.filter(wp => wp.id != whiskeyPrice.id);
+    whiskeyPrices.push(whiskeyPrice);
+
+    this.saveWhiskeyPrices(whiskeyPrices);
+  }
+
+  public saveWhiskeyPrices(whiskeyPrices: WhiskeyPrice[]): void {
+    const jsonData = JSON.stringify(whiskeyPrices);
+    localStorage.setItem(WhiskeyDataService.WHISKEY_PRICES_ITEM_KEY, jsonData);
+  }
+
+  public deleteWhiskeyPrice(whiskeyPrice: WhiskeyPrice): void {
+    whiskeyPrice.active = false;
+    this.saveWhiskeyPrice(whiskeyPrice);
+  }
+
+  public addNewWhiskeyPrice(whiskey: Whiskey): WhiskeyPrice {
+    let wp: WhiskeyPrice = { id: this.getNewId(), whiskeyId: whiskey.id, date: new Date(), price: 0, active: true };
+    this.saveWhiskeyPrice(wp);
+    return wp;
   }
 
   public getWhiskeyPositions(): WhiskeyPosition[] {
