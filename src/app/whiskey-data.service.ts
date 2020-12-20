@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Direction, Whiskey, WhiskeyPosition, WhiskeyPrice, WhiskeyTrade } from './entities';
-import { WHISKEY_POSITIONS } from './mock-data';
 
 @Injectable({
   providedIn: 'root'
@@ -92,8 +91,13 @@ export class WhiskeyDataService {
     return wp;
   }
 
-  public getWhiskeyPositions(): WhiskeyPosition[] {
-    return WHISKEY_POSITIONS;
+  public getLatestPrice(whiskeyId: string): number {
+    const prices = this.getWhiskeyPrices().filter(p => p.whiskeyId == whiskeyId);
+    if (prices.length > 0) {
+      return prices.sort((a,b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[0].price;
+    } else {
+      return 0;
+    }
   }
 
   public getWhiskeyTrades(): WhiskeyTrade[] {

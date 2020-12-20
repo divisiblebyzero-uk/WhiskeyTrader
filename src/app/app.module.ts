@@ -10,7 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { DateTimeRenderer } from './cellRenderers/DateTimeRenderer';
 
 import { TradesComponent } from './trades/trades.component';
-import { HoldingsComponent } from './holdings/holdings.component';
+import { PositionsComponent } from './positions/positions.component';
 import { PricesComponent } from './prices/prices.component';
 import { WhiskeySetupComponent } from './static/whiskey-setup/whiskey-setup.component';
 import { DropDownListRendererComponent } from './cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
@@ -23,7 +23,7 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     TradesComponent,
-    HoldingsComponent,
+    PositionsComponent,
     PricesComponent,
     WhiskeySetupComponent,
     DropDownListRendererComponent,

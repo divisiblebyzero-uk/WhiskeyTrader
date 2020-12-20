@@ -5,42 +5,40 @@ import { DatePickerRendererComponent } from '../cellRenderers/date-picker-render
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
-import { Direction, WhiskeyTrade } from '../entities';
+import { WhiskeyPosition } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
+import { WhiskeyPositionCalculatorService } from '../whiskey-position-calculator.service';
 
 @Component({
-  selector: 'app-trades',
-  templateUrl: './trades.component.html',
-  styleUrls: ['./trades.component.scss']
+  selector: 'app-positions',
+  templateUrl: './positions.component.html',
+  styleUrls: ['./positions.component.scss']
 })
-export class TradesComponent implements OnInit {
+export class PositionsComponent implements OnInit {
+
   faPlus = faPlus;
 
   // With help from https://www.codeproject.com/Articles/5266363/agGrid-for-Angular-The-Missing-Manual
 
-  constructor(private data: WhiskeyDataService) {
-    this.directions.push({id: 1, name: 'Buy'});
-    this.directions.push({id: -1, name: 'Sell'});
+  constructor(private data: WhiskeyDataService, private calc: WhiskeyPositionCalculatorService) {
   }
 
-  directions: {id: number, name: string}[] = [];
-
-  rowData: WhiskeyTrade[] | null = null;
+  rowData: WhiskeyPosition[] | null = null;
 
   columnDefs = [
-    { field: 'id' },
     { headerName: 'Whiskey Name', field: 'whiskeyId',
       cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
       valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
     },
     { field: 'numberOfBottles' },
-    { field: 'pricePerBottle' },
-    { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy', cellEditor: 'datePickerRendererComponent' },
-    { headerName: 'Buy/Sell', field: 'direction',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.directions,
-      valueGetter: (params: ValueGetterParams) => this.directions.find(d => d.id == params.data.direction)?.name
-    },
-    { cellRenderer: 'deleteButtonRendererComponent'}
+    { field: 'totalPurchases' },
+    { field: 'totalSales' },
+    { field: 'averagePricePerBottle' },
+    { field: 'currentMarketPricePerBottle' },
+    { field: 'realisedPnL' },
+    { field: 'unrealisedPnL' },
+    { field: 'pnLPerBottle' },
+    { field: 'returnOnInvestment' },
   ];
 
   gridOptions = {
@@ -48,7 +46,7 @@ export class TradesComponent implements OnInit {
       resizable: true,
       sortable: true,
       filter: true,
-      editable: true
+      editable: false
     },
     onFirstDataRendered: this.onFirstDataRendered,
     frameworkComponents: { 
@@ -64,28 +62,11 @@ export class TradesComponent implements OnInit {
     params.api.sizeColumnsToFit();
   }
 
-  trades: WhiskeyTrade[] | null = null;
-
   ngOnInit(): void {
-    this.getWhiskeyTrades();
+    this.getWhiskeyPositions();
   }
 
-  getWhiskeyTrades(): void {
-    this.rowData = this.data.getWhiskeyTrades().filter(w => w.active);
-  }
-
-  addNewWhiskeyTrade(): void {
-    this.data.addNewWhiskeyTrade(this.data.getWhiskeys()[0], 1, 0);
-    this.getWhiskeyTrades();
-  }
-
-  public deleteRow(whiskeyTrade: WhiskeyTrade): void {
-    console.log("Being asked to delete: " + JSON.stringify(whiskeyTrade));
-    this.data.deleteWhiskeyTrade(whiskeyTrade);
-    this.getWhiskeyTrades();
-  }
-
-  public saveEntry(event: any): void {
-    this.data.saveWhiskeyTrade(event.data);
+  getWhiskeyPositions(): void {
+    this.rowData = this.calc.getPositions();
   }
 }

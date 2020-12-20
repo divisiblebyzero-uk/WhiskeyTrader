@@ -21,21 +21,6 @@ export class PricesComponent implements OnInit {
   constructor(private data: WhiskeyDataService) {
   }
 
-  prices: WhiskeyPrice[] | null = null;
-
-  public getWhiskeyName(whiskeyId: string): string {
-    return this.data.getWhiskeyName(whiskeyId);
-  }
-
-  getWhiskeyNameValue(params: any):any {
-    console.log(this);
-    if (params === undefined) {
-      return null;
-    }
-    return this.data.getWhiskeyName(params.data.whiskeyId);
-    
-  }
-
   rowData: WhiskeyPrice[] | null = null;
 
   columnDefs = [
@@ -75,7 +60,6 @@ export class PricesComponent implements OnInit {
   }
 
   getWhiskeyPrices(): void {
-    this.prices = this.data.getWhiskeyPrices().filter(wp => wp.active);
     this.rowData = this.data.getWhiskeyPrices().filter(wp => wp.active);
   }
 

@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="col-md-10 offset-md-1" style="background-color: antiquewhite; padding-top: 10px; padding-bottom: 10px;">
+        <div class="col">
+            <span class="display-4">Whiskey Holdings</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <ag-grid-angular
+                #pricesGrid
+                style="height: 500px;"
+                class="ag-theme-alpine"
+                [rowData]="rowData"
+                [columnDefs]="columnDefs"
+                [gridOptions]="gridOptions"
+            >
+            </ag-grid-angular>
+        </div>
+    </div>
+</div>
+{{rowData|json}}
