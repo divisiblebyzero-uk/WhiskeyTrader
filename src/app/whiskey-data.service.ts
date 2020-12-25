@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Direction, Whiskey, WhiskeyPosition, WhiskeyPrice, WhiskeyTrade } from './entities';
+import { Direction, Whiskey, WhiskeyDetails, WhiskeyPosition, WhiskeyPrice, WhiskeyTrade } from './entities';
 
 @Injectable({
   providedIn: 'root'
@@ -134,5 +134,18 @@ export class WhiskeyDataService {
   public getWhiskeyName(whiskeyId: string): string {
     const result = this.getWhiskeys().find(whiskey => whiskey.id == whiskeyId);
     return result?result.name:'Undefined';
+  }
+
+  public getWhiskeyDetails(whiskeyId: string): WhiskeyDetails | null {
+    const whiskey = this.getWhiskeys().find(w => w.id == whiskeyId);
+    if (whiskey) {
+      return {
+        whiskeyId: whiskey.id,
+        whiskeyName: whiskey.name,
+        prices: this.getWhiskeyPrices().filter(wp => wp.whiskeyId == whiskeyId)
+      }
+    } else {
+      return null;
+    }
   }
 }

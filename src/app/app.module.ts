@@ -18,6 +18,8 @@ import { AdminComponent } from './static/admin/admin.component';
 import { DeleteButtonComponent } from './cellRenderers/delete-button/delete-button.component';
 import { DatePickerRendererComponent } from './cellRenderers/date-picker-renderer/date-picker-renderer.component';
 import { FormsModule } from '@angular/forms';
+import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.component';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { FormsModule } from '@angular/forms';
     DropDownListRendererComponent,
     AdminComponent,
     DeleteButtonComponent,
-    DatePickerRendererComponent    
+    DatePickerRendererComponent,
+    WhiskeyDetailsComponent,
   ],
   imports: [
     BrowserModule,
