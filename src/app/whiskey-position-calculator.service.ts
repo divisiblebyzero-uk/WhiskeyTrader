@@ -73,21 +73,23 @@ export class WhiskeyPositionCalculatorService {
         }
       }
 
-      const closedPosition: WhiskeyPosition = {
-        whiskeyId: whiskeyId,
-        numberOfBottles: numberOfBottles,
-        totalPurchases: totalPurchases,
-        totalSales: totalSales,
-        averagePricePerBottle: (totalPurchases + totalSales) / (numberOfBottles*2),
-        currentMarketPricePerBottle: this.data.getLatestPrice(whiskeyId),
-        profit: totalSales - totalPurchases,
-        profitPerBottle: 0,
-        returnOnInvestment: 0,
-        openPosition: false
+      if (numberOfBottles > 0) {
+        const closedPosition: WhiskeyPosition = {
+          whiskeyId: whiskeyId,
+          numberOfBottles: numberOfBottles,
+          totalPurchases: totalPurchases,
+          totalSales: totalSales,
+          averagePricePerBottle: (totalPurchases + totalSales) / (numberOfBottles*2),
+          currentMarketPricePerBottle: this.data.getLatestPrice(whiskeyId),
+          profit: totalSales - totalPurchases,
+          profitPerBottle: 0,
+          returnOnInvestment: 0,
+          openPosition: false
+        }
+        closedPosition.profitPerBottle = closedPosition.profit / closedPosition.numberOfBottles;
+        closedPosition.returnOnInvestment = closedPosition.profit / closedPosition.totalPurchases;
+        positions.push(closedPosition); 
       }
-      closedPosition.profitPerBottle = closedPosition.profit / closedPosition.numberOfBottles;
-      closedPosition.returnOnInvestment = closedPosition.profit / closedPosition.totalPurchases;
-      positions.push(closedPosition); 
 
 
       if (buyTrades.length > 0) {

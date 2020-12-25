@@ -78,7 +78,11 @@ export class PositionsComponent implements OnInit {
   }
 
   percentageFormatter(params: ValueFormatterParams): any {
-    return Math.floor((Number(params.value)*100)) + "%";
+    if (params.value && !Number.isNaN(params.value) && Number.isFinite(params.value)) {
+      return Math.floor((Number(params.value)*100)) + "%";
+    } else { 
+      return "";
+    }
   }
 
   booleanFormatter(params: ValueFormatterParams): any {

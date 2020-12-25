@@ -92,7 +92,7 @@ export class WhiskeyDataService {
   }
 
   public getLatestPrice(whiskeyId: string): number {
-    const prices = this.getWhiskeyPrices().filter(p => p.whiskeyId == whiskeyId);
+    const prices = this.getWhiskeyPrices().filter(p => p.whiskeyId == whiskeyId && p.active);
     if (prices.length > 0) {
       return prices.sort((a,b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[0].price;
     } else {
