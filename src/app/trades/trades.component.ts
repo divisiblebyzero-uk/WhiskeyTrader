@@ -75,7 +75,7 @@ export class TradesComponent implements OnInit {
   }
 
   addNewWhiskeyTrade(): void {
-    this.data.addNewWhiskeyTrade(this.data.getWhiskeys()[0], 1, 0);
+    this.data.addNewWhiskeyTrade(this.data.getWhiskeys()[0], 1, 0, Direction.Buy);
     this.getWhiskeyTrades();
   }
 

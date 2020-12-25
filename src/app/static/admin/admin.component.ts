@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PersistencePayload, Whiskey, WhiskeyPrice, WhiskeyTrade } from 'src/app/entities';
+import { Direction, PersistencePayload, Whiskey, WhiskeyPrice, WhiskeyTrade } from 'src/app/entities';
 import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 
 @Component({
@@ -39,7 +39,8 @@ export class AdminComponent implements OnInit {
     const wp: WhiskeyPrice = this.data.addNewWhiskeyPrice(w);
     wp.price = 100;
     this.data.saveWhiskeyPrice(wp);
-    const wt: WhiskeyTrade = this.data.addNewWhiskeyTrade(w, 1, wp.price);
+    this.data.addNewWhiskeyTrade(w, 2, wp.price, Direction.Buy);
+    this.data.addNewWhiskeyTrade(w, 1, wp.price, Direction.Sell);
     this.getData();
   }
 

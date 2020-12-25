@@ -109,8 +109,8 @@ export class WhiskeyDataService {
     }
   }
 
-  public addNewWhiskeyTrade(whiskey: Whiskey, numberOfBottles: number, price: number): WhiskeyTrade {
-    const wt: WhiskeyTrade = { id: this.getNewId(), whiskeyId: whiskey.id, numberOfBottles: numberOfBottles, pricePerBottle: price, date: new Date(), direction: Direction.Buy, active: true };
+  public addNewWhiskeyTrade(whiskey: Whiskey, numberOfBottles: number, price: number, direction: Direction): WhiskeyTrade {
+    const wt: WhiskeyTrade = { id: this.getNewId(), whiskeyId: whiskey.id, numberOfBottles: numberOfBottles, pricePerBottle: price, date: new Date(), direction: direction, active: true };
     this.saveWhiskeyTrade(wt);
     return wt;
   }

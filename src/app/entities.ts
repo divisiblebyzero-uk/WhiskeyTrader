@@ -9,16 +9,15 @@ export interface WhiskeyTrade {
 }
 
 export interface WhiskeyPosition {
-    //id: string,
     whiskeyId: string,
     numberOfBottles: number,
     totalPurchases: number,
     totalSales: number,
     averagePricePerBottle: number,
     currentMarketPricePerBottle: number,
-    realisedPnL: number,
-    unrealisedPnL: number,
-    pnLPerBottle: number,
+    openPosition: boolean,
+    profit: number,
+    profitPerBottle: number,
     returnOnInvestment: number
 }
 

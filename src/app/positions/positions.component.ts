@@ -1,6 +1,7 @@
+import { formatNumber } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ValueGetterParams } from 'ag-grid-community';
+import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
 import { DatePickerRendererComponent } from '../cellRenderers/date-picker-renderer/date-picker-renderer.component';
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
@@ -31,17 +32,18 @@ export class PositionsComponent implements OnInit {
       valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
     },
     { field: 'numberOfBottles' },
-    { field: 'totalPurchases' },
-    { field: 'totalSales' },
-    { field: 'averagePricePerBottle' },
-    { field: 'currentMarketPricePerBottle' },
-    { field: 'realisedPnL' },
-    { field: 'unrealisedPnL' },
-    { field: 'pnLPerBottle' },
-    { field: 'returnOnInvestment' },
+    { field: 'totalPurchases', valueFormatter: this.currencyFormatter },
+    { field: 'totalSales', valueFormatter: this.currencyFormatter },
+    { field: 'averagePricePerBottle', valueFormatter: this.currencyFormatter },
+    { field: 'currentMarketPricePerBottle', valueFormatter: this.currencyFormatter },
+    { field: 'profit', valueFormatter: this.currencyFormatter },
+    { field: 'profitPerBottle', valueFormatter: this.currencyFormatter },
+    { field: 'returnOnInvestment', valueFormatter: this.percentageFormatter },
+    { headerName: 'Open?', field: 'openPosition', valueFormatter: this.booleanFormatter }
   ];
 
   gridOptions = {
+    getRowStyle: (params: ValueFormatterParams) => { return params.data.openPosition? {background: 'pink'}: {background: 'powderblue'} },
     defaultColDef: {
       resizable: true,
       sortable: true,
@@ -68,5 +70,18 @@ export class PositionsComponent implements OnInit {
 
   getWhiskeyPositions(): void {
     this.rowData = this.calc.getPositions();
+  }
+
+  currencyFormatter(params: ValueFormatterParams): any {
+    return '\xA3' + Number(params.value).toFixed(2)
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  }
+
+  percentageFormatter(params: ValueFormatterParams): any {
+    return Math.floor((Number(params.value)*100)) + "%";
+  }
+
+  booleanFormatter(params: ValueFormatterParams): any {
+    return params.value?'Yes':'No';
   }
 }
