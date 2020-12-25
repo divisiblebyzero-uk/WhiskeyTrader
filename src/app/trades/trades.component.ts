@@ -80,9 +80,10 @@ export class TradesComponent implements OnInit {
   }
 
   public deleteRow(whiskeyTrade: WhiskeyTrade): void {
-    console.log("Being asked to delete: " + JSON.stringify(whiskeyTrade));
-    this.data.deleteWhiskeyTrade(whiskeyTrade);
-    this.getWhiskeyTrades();
+    if (confirm("Are you sure you want to delete this trade?")) {
+      this.data.deleteWhiskeyTrade(whiskeyTrade);
+      this.getWhiskeyTrades();
+    }
   }
 
   public saveEntry(event: any): void {

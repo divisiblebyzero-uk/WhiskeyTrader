@@ -69,9 +69,10 @@ export class PricesComponent implements OnInit {
   }
 
   public deleteRow(whiskeyPrice: WhiskeyPrice): void {
-    console.log("Being asked to delete: " + JSON.stringify(whiskeyPrice));
-    this.data.deleteWhiskeyPrice(whiskeyPrice);
-    this.getWhiskeyPrices();
+    if (confirm("Are you sure you want to delete this price?")) {
+      this.data.deleteWhiskeyPrice(whiskeyPrice);
+      this.getWhiskeyPrices();
+    }
   }
 
   public saveEntry(event: any): void {

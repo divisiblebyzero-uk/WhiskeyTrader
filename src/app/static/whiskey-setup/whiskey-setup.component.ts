@@ -61,9 +61,10 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   public deleteRow(whiskey: Whiskey): void {
-    console.log("Being asked to delete: " + JSON.stringify(whiskey));
-    this.data.deleteWhiskey(whiskey);
-    this.getWhiskeys();
+    if (confirm("Are you sure you want to delete this whiskey?")) {
+      this.data.deleteWhiskey(whiskey);
+      this.getWhiskeys();
+    }
   }
 
 }
