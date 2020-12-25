@@ -142,7 +142,7 @@ export class WhiskeyDataService {
       return {
         whiskeyId: whiskey.id,
         whiskeyName: whiskey.name,
-        prices: this.getWhiskeyPrices().filter(wp => wp.whiskeyId == whiskeyId)
+        prices: this.getWhiskeyPrices().filter(wp => wp.whiskeyId == whiskeyId && wp.active)
       }
     } else {
       return null;

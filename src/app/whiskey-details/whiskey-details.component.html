@@ -1,6 +1,15 @@
-<p>wiskey-details works!</p>
-<div *ngIf="whiskeyDetails">
-    {{whiskeyDetails.whiskeyId}}
-</div>
-
-
+<div class="flex">
+    <div class="flex-item">
+      <div style="display: block;">
+      <canvas baseChart width="400" height="400"
+                  [datasets]="priceData"
+                  [labels]="lineChartLabels"
+                  [options]="lineChartOptions"
+                  [colors]="lineChartColors"
+                  [legend]="lineChartLegend"
+                  [chartType]="lineChartType"
+                  (chartHover)="chartHovered($event)"
+                  ></canvas>
+      </div>
+    </div>
+  </div>

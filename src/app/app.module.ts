@@ -20,6 +20,8 @@ import { DatePickerRendererComponent } from './cellRenderers/date-picker-rendere
 import { FormsModule } from '@angular/forms';
 import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.component';
 
+import { ChartsModule } from 'ng2-charts';
+import { ShowDetailsCellRendererComponent } from './cellRenderers/show-details-cell-renderer/show-details-cell-renderer.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.compo
     DeleteButtonComponent,
     DatePickerRendererComponent,
     WhiskeyDetailsComponent,
+    ShowDetailsCellRendererComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.compo
     NgbModule,
     AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent, DeleteButtonComponent, DatePickerRendererComponent]),
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

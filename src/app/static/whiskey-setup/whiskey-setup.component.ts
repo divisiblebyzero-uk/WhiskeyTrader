@@ -4,6 +4,8 @@ import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { GridOptions } from 'ag-grid-community';
 import { DeleteButtonComponent } from 'src/app/cellRenderers/delete-button/delete-button.component';
+import { ShowDetailsCellRendererComponent } from 'src/app/cellRenderers/show-details-cell-renderer/show-details-cell-renderer.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-whiskey-setup',
@@ -13,14 +15,15 @@ import { DeleteButtonComponent } from 'src/app/cellRenderers/delete-button/delet
 export class WhiskeySetupComponent implements OnInit {
   faPlus = faPlus;
   
-  constructor(private data: WhiskeyDataService) { }
+  constructor(private data: WhiskeyDataService, private router: Router) { }
 
   rowData: Whiskey[] | null = null;
 
   columnDefs = [
     { field: 'id' },
     { field: 'name' },
-    { cellRenderer: 'deleteButtonRendererComponent'}
+    { cellRenderer: 'deleteButtonRendererComponent'},
+    { cellRenderer: 'showDetailsCellRendererComponent'}
   ];
 
   ngOnInit(): void {
@@ -41,7 +44,8 @@ export class WhiskeySetupComponent implements OnInit {
     onFirstDataRendered: this.onFirstDataRendered,
     api: null,
     frameworkComponents: { 
-      deleteButtonRendererComponent: DeleteButtonComponent
+      deleteButtonRendererComponent: DeleteButtonComponent,
+      showDetailsCellRendererComponent: ShowDetailsCellRendererComponent
      },
     context: { componentParent: this }
   };
@@ -65,6 +69,10 @@ export class WhiskeySetupComponent implements OnInit {
       this.data.deleteWhiskey(whiskey);
       this.getWhiskeys();
     }
+  }
+
+  public showDetails(whiskey: Whiskey): void {
+    this.router.navigate(['/whiskey-details', whiskey.id]);
   }
 
 }
