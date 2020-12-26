@@ -20,7 +20,7 @@ export class WhiskeySetupComponent implements OnInit {
   rowData: Whiskey[] | null = null;
 
   columnDefs = [
-    { field: 'id' },
+    //{ field: 'id' },
     { field: 'name' },
     { cellRenderer: 'deleteButtonRendererComponent'},
     { cellRenderer: 'showDetailsCellRendererComponent'}

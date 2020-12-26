@@ -28,7 +28,7 @@ export class TradesComponent implements OnInit {
   rowData: WhiskeyTrade[] | null = null;
 
   columnDefs = [
-    { field: 'id' },
+    //{ field: 'id' },
     { headerName: 'Whiskey Name', field: 'whiskeyId',
       cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
       valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
