@@ -29,16 +29,18 @@ export class PositionsComponent implements OnInit {
   columnDefs = [
     { headerName: 'Whiskey Name', field: 'whiskeyId',
       cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
-      valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
+      valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name, pinned: 'left',
+      minWidth: 130,
+      maxWidth: 200
     },
-    { field: 'numberOfBottles' },
-    { field: 'totalPurchases', valueFormatter: this.currencyFormatter },
-    { field: 'totalSales', valueFormatter: this.currencyFormatter },
-    { field: 'averagePricePerBottle', valueFormatter: this.currencyFormatter },
-    { field: 'currentMarketPricePerBottle', valueFormatter: this.currencyFormatter },
+    { headerName: '#', field: 'numberOfBottles', pinned: 'left', minWidth: 50, maxWidth: 50 },
+    { headerName: 'Buy', field: 'totalPurchases', valueFormatter: this.currencyFormatter, minWidth: 75, maxWidth: 75 },
+    { headerName: 'Sell', field: 'totalSales', valueFormatter: this.currencyFormatter, minWidth: 75, maxWidth: 75 },
+    { headerName: 'Avg Price', field: 'averagePricePerBottle', valueFormatter: this.currencyFormatter, minWidth: 100, maxWidth: 100 },
+    { headerName: 'Mkt Price', field: 'currentMarketPricePerBottle', valueFormatter: this.currencyFormatter, minWidth: 100, maxWidth: 100 },
     { field: 'profit', valueFormatter: this.currencyFormatter },
     { field: 'profitPerBottle', valueFormatter: this.currencyFormatter },
-    { field: 'returnOnInvestment', valueFormatter: this.percentageFormatter },
+    { headerName: 'RoI', field: 'returnOnInvestment', valueFormatter: this.percentageFormatter },
     { headerName: 'Open?', field: 'openPosition', valueFormatter: this.booleanFormatter }
   ];
 
@@ -48,7 +50,9 @@ export class PositionsComponent implements OnInit {
       resizable: true,
       sortable: true,
       filter: true,
-      editable: false
+      editable: false,
+      minWidth: 75,
+      maxWidth: 75
     },
     onFirstDataRendered: this.onFirstDataRendered,
     frameworkComponents: { 
