@@ -1,13 +1,28 @@
-<div class="container-fluid">
+<div class="container">
     <div class="col-md-10 offset-md-1" style="background-color: antiquewhite; padding-top: 10px; padding-bottom: 10px;">
-        <div class="col">
             <span class="display-4">Whiskeys</span>
             <fa-icon size="2x" title="Add Whiskey" [icon]="faPlus" (click)="addNewWhiskey()" style="cursor: pointer;"></fa-icon>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-md-10 offset-md-1">
-            <ag-grid-angular
+    <div class="row-fluid my-3">
+        <div class="col">
+
+            <div class="card-columns">
+                <div class="card text-center h-100" style="width: 200px;" *ngFor="let whiskey of rowData">
+                    <img class="card-img-top" src="assets/bottle.png" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">{{whiskey.name}}</h4>
+                        <p class="card-text">Details about the whiskey. Ooh isn't it nice.</p>
+                        <a routerLink="../whiskey-details/{{whiskey.id}}" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="card" style="width: 200px;">
+                    <div class="card-block">
+                        <h4 class="card-title">Add</h4>
+                        <h2><fa-icon size="3x" title="Add Whiskey" [icon]="faPlus" (click)="addNewWhiskey()" style="cursor: pointer;"></fa-icon></h2>
+                    </div>
+                </div>
+            </div>
+            <!--ag-grid-angular
                 #pricesGrid
                 style="height: 500px;"
                 class="ag-theme-alpine"
@@ -16,7 +31,7 @@
                 [gridOptions]="gridOptions"
                 (cellValueChanged)="saveEntry($event)"
             >
-            </ag-grid-angular>
+            </ag-grid-angular-->
         </div>
     </div>
 </div>

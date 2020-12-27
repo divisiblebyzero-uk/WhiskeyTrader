@@ -19,13 +19,6 @@ export class WhiskeySetupComponent implements OnInit {
 
   rowData: Whiskey[] | null = null;
 
-  columnDefs = [
-    //{ field: 'id' },
-    { field: 'name' },
-    { cellRenderer: 'deleteButtonRendererComponent'},
-    { cellRenderer: 'showDetailsCellRendererComponent'}
-  ];
-
   ngOnInit(): void {
     this.getWhiskeys();
   }
@@ -34,34 +27,10 @@ export class WhiskeySetupComponent implements OnInit {
     this.rowData = this.data.getWhiskeys().filter(w => w.active);
   }
 
-  gridOptions:GridOptions = {
-    defaultColDef: {
-      resizable: true,
-      sortable: true,
-      filter: true,
-      editable: true
-    },
-    onFirstDataRendered: this.onFirstDataRendered,
-    api: null,
-    frameworkComponents: { 
-      deleteButtonRendererComponent: DeleteButtonComponent,
-      showDetailsCellRendererComponent: ShowDetailsCellRendererComponent
-     },
-    context: { componentParent: this }
-  };
-
-  onFirstDataRendered(params:any) {
-    params.api.sizeColumnsToFit();
-  }
-
-  public saveEntry(event: any): void {
-    console.log(JSON.stringify(event.data));
-    this.data.saveWhiskey(event.data);
-  }
 
   public addNewWhiskey(): void {
-    const newWhiskey = this.data.addNewWhiskey("Enter Whiskey name");
-    this.gridOptions.api?.applyTransaction({ add: [newWhiskey] });
+    const newWhiskey = this.data.addNewWhiskey("New Whiskey");
+    this.getWhiskeys();
   }
 
   public deleteRow(whiskey: Whiskey): void {
