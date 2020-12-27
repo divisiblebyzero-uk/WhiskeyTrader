@@ -51,7 +51,6 @@ export interface PersistencePayload {
 }
 
 export interface WhiskeyDetails {
-    whiskeyId: string,
-    whiskeyName: string,
+    whiskey: Whiskey,
     prices: WhiskeyPrice[]
 }

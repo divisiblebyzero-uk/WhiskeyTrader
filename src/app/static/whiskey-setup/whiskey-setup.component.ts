@@ -43,7 +43,6 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   public convertDate(date: Date): string {
-    console.log(date);
     if (!date) {
       return "unknown";
     }
@@ -55,7 +54,7 @@ export class WhiskeySetupComponent implements OnInit {
     }
     const timeDifference = now.getTime() - theDate.getTime();
     if (timeDifference < 60*1000) {
-      return "now;"
+      return "now";
     }
     if (timeDifference < 2*60*1000) {
       return "about a minute ago";

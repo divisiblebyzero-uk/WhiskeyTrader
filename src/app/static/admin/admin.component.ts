@@ -34,13 +34,36 @@ export class AdminComponent implements OnInit {
     this.getData();
   }
 
+  private generatePrices(whiskey: Whiskey): number {
+    const prices: WhiskeyPrice[] = [];
+    let firstPrice = Math.floor(Math.random()*400 + 50);
+    let currentPrice = firstPrice;
+    for (let i = 0; i < 12; i++) {
+      const date = new Date();
+      date.setDate(1);
+      date.setMonth(date.getMonth() - i);
+
+      const price = this.data.addNewWhiskeyPrice(whiskey);
+      price.date = date;
+      
+      const change = Math.floor(Math.random()*40 - 20);
+
+      currentPrice = currentPrice * (1 + change/100);
+      price.price = currentPrice;
+      this.data.saveWhiskeyPrice(price);
+    }
+    return firstPrice;
+  }
+
   public generate(): void {
     const w: Whiskey = this.data.addNewWhiskey('Whiskey 1');
-    const wp: WhiskeyPrice = this.data.addNewWhiskeyPrice(w);
-    wp.price = 100;
-    this.data.saveWhiskeyPrice(wp);
-    this.data.addNewWhiskeyTrade(w, 2, wp.price, Direction.Buy);
-    this.data.addNewWhiskeyTrade(w, 1, wp.price, Direction.Sell);
+    w.description = "The first whiskey I ever tasted";
+    w.distiller = "RuBrew";
+    this.data.saveWhiskey(w);
+
+    const latestPrice = this.generatePrices(w);
+    this.data.addNewWhiskeyTrade(w, 2, latestPrice, Direction.Buy);
+    this.data.addNewWhiskeyTrade(w, 1, latestPrice, Direction.Sell);
     this.getData();
   }
 

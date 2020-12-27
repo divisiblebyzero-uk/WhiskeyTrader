@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Whiskey, WhiskeyDetails } from '../entities';
+import { WhiskeyDetails } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 
 import { ChartDataSets, ChartOptions, ChartPoint, ChartType } from 'chart.js';
-import { Color, BaseChartDirective, Label, SingleLineLabel } from 'ng2-charts';
-import { time } from 'console';
+import { Color, Label } from 'ng2-charts';
 
-//import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-whiskey-details',
@@ -16,21 +15,34 @@ import { time } from 'console';
 })
 export class WhiskeyDetailsComponent implements OnInit {
 
-  public whiskeyDetails: WhiskeyDetails | null = null;
+  public editMode: boolean = false;
+
+  public whiskeyDetails: WhiskeyDetails = {
+    whiskey: {
+      id: '',
+      name: '',
+      distiller: '',
+      description: '',
+      updated: new Date(),
+      created: new Date(),
+      active: false
+    },
+    prices: []
+  };
 
   priceData: any = [{
     label: 'Whiskey Name',
     data: [
-      
-      {y: 1, t: '2015-03-15T13:03:00Z'},
-      {y: 2, t: '2015-03-15T13:02:00Z'},
-      {y: 3, t: '2015-04-25T14:12:00Z'},
-      
+
+      { y: 1, t: '2015-03-15T13:03:00Z' },
+      { y: 2, t: '2015-03-15T13:02:00Z' },
+      { y: 3, t: '2015-04-25T14:12:00Z' },
+
     ]
   }
   ];
 
-  
+
 
   public lineChartData: ChartDataSets[] = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
@@ -41,7 +53,7 @@ export class WhiskeyDetailsComponent implements OnInit {
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {
-      xAxes: [{type: 'time', distribution: 'linear'}],
+      xAxes: [{ type: 'time', distribution: 'linear' }],
       yAxes: [
         {
           id: 'y-axis-0',
@@ -80,11 +92,11 @@ export class WhiskeyDetailsComponent implements OnInit {
   public lineChartLegend = true;
   public lineChartType: ChartType = 'line';
 
-  public chart:any;
+  public chart: any;
 
   constructor(private route: ActivatedRoute, private data: WhiskeyDataService) { }
 
-  ngOnInit(): void {
+  private loadData(): void {
     this.route.params.subscribe(params => {
       const whiskeyId = params['id'];
       this.whiskeyDetails = this.data.getWhiskeyDetails(whiskeyId);
@@ -92,22 +104,35 @@ export class WhiskeyDetailsComponent implements OnInit {
         const data: ChartPoint[] = [];
         const labels: Label[] = [];
         this.whiskeyDetails.prices.forEach(p => {
-          data.push({y: p.price.toString(), t: p.date.toString()});
+          data.push({ y: p.price.toString(), t: p.date.toString() });
           labels.push(p.date.toString());
         });
         this.priceData = [{
-          label: this.whiskeyDetails.whiskeyName,
+          label: 'Historic Prices',
           data: data
         }
         ];
         this.lineChartLabels = labels;
       }
-
+      this.editMode = false;
     });
+  }
+
+  ngOnInit(): void {
+    this.loadData();
   }
 
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
+  }
+
+  public editButton(): void {
+    this.editMode = true;
+  }
+
+  public saveWhiskey(): void {
+    this.data.saveWhiskey(this.whiskeyDetails.whiskey);
+    this.loadData();
   }
 
 }

@@ -32,6 +32,8 @@ export class WhiskeyDataService {
   }
 
   public saveWhiskey(whiskey: Whiskey): void {
+    whiskey.updated = new Date();
+
     let whiskeys: Whiskey[] = this.getWhiskeys();
 
     whiskeys = whiskeys.filter(w => w.id != whiskey.id);
@@ -136,16 +138,15 @@ export class WhiskeyDataService {
     return result?result.name:'Undefined';
   }
 
-  public getWhiskeyDetails(whiskeyId: string): WhiskeyDetails | null {
+  public getWhiskeyDetails(whiskeyId: string): WhiskeyDetails {
     const whiskey = this.getWhiskeys().find(w => w.id == whiskeyId);
     if (whiskey) {
       return {
-        whiskeyId: whiskey.id,
-        whiskeyName: whiskey.name,
+        whiskey: whiskey,
         prices: this.getWhiskeyPrices().filter(wp => wp.whiskeyId == whiskeyId && wp.active)
       }
     } else {
-      return null;
+      throw 'Whiskey not found: ' + whiskeyId;
     }
   }
 }
