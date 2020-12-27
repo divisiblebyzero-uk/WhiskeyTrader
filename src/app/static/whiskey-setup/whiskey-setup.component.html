@@ -15,11 +15,14 @@
 
             <div class="card h-100">
                 <img src="assets/bottle.png" class="img-fluid card-img-top" />
+                <div class="overlay">
+                    <fa-icon class="icon" size="lg" title="Delete Whiskey" [icon]="faTimes" (click)="deleteWhiskey(whiskey)" style="cursor: pointer;"></fa-icon>
+                  </div>
                 <div class="card-body">
                     <h4 class="card-title">{{whiskey.name}}</h4>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <p class="card-text">{{whiskey.description}}</p>
+                    <p class="card-text"><small class="text-muted">Last updated {{convertDate(whiskey.updated)}}</small></p>
+                    <p class="card-text text-center"><a (click)="showDetails(whiskey)" class="btn btn-dark">Show details</a></p>
                 </div>
             </div>
         </div>

@@ -46,7 +46,7 @@ export class WhiskeyDataService {
   }
 
   public addNewWhiskey(whiskeyName: string): Whiskey {
-    const w: Whiskey = { id: this.getNewId(), name: whiskeyName, active: true };
+    const w: Whiskey = { id: this.getNewId(), name: whiskeyName, active: true, distiller: '', description: '', created: new Date(), updated: new Date() };
     this.saveWhiskey(w);
     return w;
   }

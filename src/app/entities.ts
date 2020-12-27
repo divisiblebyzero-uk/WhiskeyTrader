@@ -32,6 +32,10 @@ export interface WhiskeyPrice {
 export interface Whiskey {
     id: string,
     name: string,
+    distiller: string,
+    description: string,
+    updated: Date,
+    created: Date,
     active: boolean
 }
 
