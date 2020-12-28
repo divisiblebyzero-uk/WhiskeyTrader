@@ -48,7 +48,7 @@ export class AdminComponent implements OnInit {
       
       const change = Math.floor(Math.random()*40 - 20);
 
-      currentPrice = currentPrice * (1 + change/100);
+      currentPrice = Math.floor(100*(currentPrice * (1 + change/100)))/100;
       price.price = currentPrice;
       this.data.saveWhiskeyPrice(price);
     }

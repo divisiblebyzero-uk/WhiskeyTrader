@@ -36,9 +36,7 @@
       {{whiskeyDetails.whiskey|json}}
     </div>
     <div class="col-md-6 my-3">
-      <canvas baseChart width="400" height="100" [datasets]="priceData" [labels]="lineChartLabels"
-        [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
-        (chartHover)="chartHovered($event)"></canvas>
+      <app-price-graph></app-price-graph>
     </div>
   </div>
 </div>

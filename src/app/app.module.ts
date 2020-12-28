@@ -22,6 +22,7 @@ import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.compo
 
 import { ChartsModule } from 'ng2-charts';
 import { ShowDetailsCellRendererComponent } from './cellRenderers/show-details-cell-renderer/show-details-cell-renderer.component';
+import { PriceGraphComponent } from './price-graph/price-graph.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ShowDetailsCellRendererComponent } from './cellRenderers/show-details-c
     DeleteButtonComponent,
     DatePickerRendererComponent,
     WhiskeyDetailsComponent,
-    ShowDetailsCellRendererComponent
+    ShowDetailsCellRendererComponent,
+    PriceGraphComponent
   ],
   imports: [
     BrowserModule,
