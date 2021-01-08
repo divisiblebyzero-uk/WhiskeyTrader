@@ -29,8 +29,12 @@ import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
 import { AccountInformationComponent } from './auth/account-information/account-information.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ServerCommunicationsComponent } from './server-communications/server-communications.component';
+import { environment as env } from '../environments/environment';
 
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+
 
 @NgModule({
   declarations: [
@@ -60,12 +64,19 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ChartsModule,
     AuthModule.forRoot({
-      domain: 'dev-dby0.auth0.com',
-      clientId: 'VeOBHSLmQFfhmqkSqH4xy59oRtSHZOsj'
+      ...env.auth,
+      httpInterceptor: {
+        allowedList: [`${env.dev.serverUrl}/api/messages/protected-message`],
+      },
     }),
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthHttpInterceptor,
+    multi: true,
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

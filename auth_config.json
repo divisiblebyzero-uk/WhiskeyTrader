@@ -1,0 +1,6 @@
+{
+    "domain": "dev-dby0.auth0.com",
+    "clientId": "VeOBHSLmQFfhmqkSqH4xy59oRtSHZOsj",
+    "audience": "https://whiskey-api.webster-smalley.co.uk",
+    "serverUrl": "http://localhost:6060"
+}
