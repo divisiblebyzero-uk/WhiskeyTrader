@@ -24,6 +24,9 @@ import { ChartsModule } from 'ng2-charts';
 import { ShowDetailsCellRendererComponent } from './cellRenderers/show-details-cell-renderer/show-details-cell-renderer.component';
 import { PriceGraphComponent } from './price-graph/price-graph.component';
 
+import { AuthModule } from '@auth0/auth0-angular';
+import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +40,8 @@ import { PriceGraphComponent } from './price-graph/price-graph.component';
     DatePickerRendererComponent,
     WhiskeyDetailsComponent,
     ShowDetailsCellRendererComponent,
-    PriceGraphComponent
+    PriceGraphComponent,
+    AuthButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,11 @@ import { PriceGraphComponent } from './price-graph/price-graph.component';
     AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent, DeleteButtonComponent, DatePickerRendererComponent]),
     FontAwesomeModule,
     FormsModule,
-    ChartsModule
+    ChartsModule,
+    AuthModule.forRoot({
+      domain: 'dev-dby0.auth0.com',
+      clientId: 'VeOBHSLmQFfhmqkSqH4xy59oRtSHZOsj'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
