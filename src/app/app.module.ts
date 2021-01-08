@@ -26,6 +26,11 @@ import { PriceGraphComponent } from './price-graph/price-graph.component';
 
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
+import { AccountInformationComponent } from './auth/account-information/account-information.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { ServerCommunicationsComponent } from './server-communications/server-communications.component';
+
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,7 +46,10 @@ import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
     WhiskeyDetailsComponent,
     ShowDetailsCellRendererComponent,
     PriceGraphComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    AccountInformationComponent,
+    WelcomeComponent,
+    ServerCommunicationsComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +62,8 @@ import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
     AuthModule.forRoot({
       domain: 'dev-dby0.auth0.com',
       clientId: 'VeOBHSLmQFfhmqkSqH4xy59oRtSHZOsj'
-    })
+    }),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

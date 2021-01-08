@@ -1,0 +1,20 @@
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+
+    <li ngbDropdown class="nav-item">
+        <a href (click)="false" class="nav-link" ngbDropdownToggle>Account</a>
+
+
+        <div ngbDropdownMenu>
+            <button ngbDropdownItem routerLink="account-information" routerLinkActive="active">My account</button>
+            <button ngbDropdownItem (click)="auth.logout({ returnTo: document.location.origin })">
+                Log out
+            </button>
+        </div>
+    </li>
+
+</ng-container>
+<ng-template #loggedOut>
+    <li class="nav-item " routerLinkActive="active">
+        <a href (click)="auth.loginWithRedirect()" class="nav-link">Log in</a>
+    </li>
+</ng-template>
