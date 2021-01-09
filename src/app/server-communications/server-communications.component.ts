@@ -14,6 +14,8 @@ interface Message {
 })
 export class ServerCommunicationsComponent implements OnInit {
 
+
+
   message: string = '';
 
   constructor(private http: HttpClient) { }
@@ -28,7 +30,7 @@ export class ServerCommunicationsComponent implements OnInit {
   }
   callApi(): void {
     this.http
-      .get<Message>(`${env.dev.serverUrl}/api/messages/public-message`)
+      .get<Message>(`${env.api.serverUrl}/api/public`)
       .subscribe((result: Message) => {
         this.message = result.message;
       });
@@ -36,7 +38,7 @@ export class ServerCommunicationsComponent implements OnInit {
 
   callSecureApi(): void {
     this.http
-      .get<Message>(`${env.dev.serverUrl}/api/messages/protected-message`)
+      .get<Message>(`${env.api.serverUrl}/api/private`)
       .subscribe((result: Message) => {
         this.message = result.message;
       });
