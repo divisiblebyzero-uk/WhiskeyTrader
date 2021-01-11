@@ -3,6 +3,7 @@ import { Whiskey } from 'src/app/entities';
 import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-whiskey-setup',
@@ -13,7 +14,7 @@ export class WhiskeySetupComponent implements OnInit {
   faPlus = faPlus;
   faTimes = faTimes;
   
-  constructor(private data: WhiskeyDataService, private router: Router) { }
+  constructor(private data: WhiskeyDataService, private router: Router, private toastr: ToastrService) { }
 
   rowData: Whiskey[] | null = null;
 
@@ -22,7 +23,8 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   getWhiskeys(): void {
-    this.rowData = this.data.getWhiskeys().filter(w => w.active);
+    this.data.getWhiskeysNew().subscribe(whiskeys => this.rowData = this.data.getWhiskeys().filter(w => w.active));
+    //this.rowData = this.data.getWhiskeys().filter(w => w.active);
   }
 
 

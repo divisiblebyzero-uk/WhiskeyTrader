@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Direction, Whiskey, WhiskeyDetails, WhiskeyPrice, WhiskeyTrade } from './entities';
 import { environment as env } from '../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +16,32 @@ export class WhiskeyDataService {
   private static readonly WHISKEY_TRADES_ITEM_KEY = 'whiskey-trades';
 
   private BASE_API_URL = env.api.serverUrl + "/api/data";
-  private WHISKEYS_URL = this.BASE_API_URL + "/whiskeys";
+  public WHISKEYS_URL = this.BASE_API_URL + "/whiskeys";
   private WHISKEYPRICES_URL = this.BASE_API_URL + "/whiskeyprices";
   private WHISKEYTRADES_URL = this.BASE_API_URL + "/whiskeytrades";
 
-  constructor() { }
+  constructor(private toastr: ToastrService, private http: HttpClient) { }
+
+  private showError(message: string): void {
+    this.toastr.error(message, 'Communications Error', {
+      disableTimeOut: true,
+      positionClass: 'toast-bottom-right'
+    });
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+  
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+  
+      // TODO: better job of transforming error for user consumption
+      this.showError(`${operation} failed: ${error.message}`);
+  
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 
   getNewId(): string {
     const stringArr = [];
@@ -28,10 +53,14 @@ export class WhiskeyDataService {
     return stringArr.join('-');
   }
 
+  public getWhiskeysNew(): Observable<Whiskey[]> {
+    return this.http.get<Whiskey[]>(this.WHISKEYS_URL)
+    .pipe(
+      catchError (this.handleError<Whiskey[]>('getWhiskeys', []))
+    );
+  }
+
   public getWhiskeys(): Whiskey[] {
-
-
-
     const jsonData = localStorage.getItem(WhiskeyDataService.WHISKEYS_ITEM_KEY);
     if (jsonData) {
       return JSON.parse(jsonData);
