@@ -66,7 +66,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     AuthModule.forRoot({
       ...env.auth,
       httpInterceptor: {
-        allowedList: [`${env.api.serverUrl}/api/private`],
+        allowedList: [`${env.api.serverUrl}/api/data`],
       },
     }),
     HttpClientModule

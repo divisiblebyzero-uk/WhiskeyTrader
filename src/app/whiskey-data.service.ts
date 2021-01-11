@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Direction, Whiskey, WhiskeyDetails, WhiskeyPosition, WhiskeyPrice, WhiskeyTrade } from './entities';
+import { Direction, Whiskey, WhiskeyDetails, WhiskeyPrice, WhiskeyTrade } from './entities';
+import { environment as env } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,11 @@ export class WhiskeyDataService {
   private static readonly WHISKEYS_ITEM_KEY = 'whiskeys';
   private static readonly WHISKEY_PRICES_ITEM_KEY = 'whiskey-prices';
   private static readonly WHISKEY_TRADES_ITEM_KEY = 'whiskey-trades';
+
+  private BASE_API_URL = env.api.serverUrl + "/api/data";
+  private WHISKEYS_URL = this.BASE_API_URL + "/whiskeys";
+  private WHISKEYPRICES_URL = this.BASE_API_URL + "/whiskeyprices";
+  private WHISKEYTRADES_URL = this.BASE_API_URL + "/whiskeytrades";
 
   constructor() { }
 
@@ -23,6 +29,9 @@ export class WhiskeyDataService {
   }
 
   public getWhiskeys(): Whiskey[] {
+
+
+
     const jsonData = localStorage.getItem(WhiskeyDataService.WHISKEYS_ITEM_KEY);
     if (jsonData) {
       return JSON.parse(jsonData);
