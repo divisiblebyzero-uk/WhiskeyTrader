@@ -1,4 +1,3 @@
-import { formatNumber } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
@@ -9,7 +8,6 @@ import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-r
 import { WhiskeyTradesService } from '../Data/whiskey-trades.service';
 import { WhiskeysService } from '../Data/whiskeys-service.service';
 import { Whiskey, WhiskeyPosition } from '../entities';
-import { WhiskeyDataService } from '../whiskey-data.service';
 import { WhiskeyPositionCalculatorService } from '../whiskey-position-calculator.service';
 
 @Component({

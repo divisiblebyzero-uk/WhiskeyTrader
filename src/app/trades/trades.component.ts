@@ -8,7 +8,6 @@ import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-r
 import { WhiskeyTradesService } from '../Data/whiskey-trades.service';
 import { WhiskeysService } from '../Data/whiskeys-service.service';
 import { Direction, Whiskey, WhiskeyTrade } from '../entities';
-import { WhiskeyDataService } from '../whiskey-data.service';
 
 @Component({
   selector: 'app-trades',

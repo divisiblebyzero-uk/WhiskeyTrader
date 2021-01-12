@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Color, Label, ThemeService } from 'ng2-charts';
 import { ChartDataSets, ChartOptions, ChartPoint, ChartType } from 'chart.js';
-import { WhiskeyDetails } from '../entities';
-import { WhiskeyDataService } from '../whiskey-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { WhiskeysService } from '../Data/whiskeys-service.service';
 

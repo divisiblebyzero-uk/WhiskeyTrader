@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { buildDriverProvider, Direct } from 'protractor/built/driverProviders';
 import { WhiskeyPricesService } from './Data/whiskey-prices.service';
 import { WhiskeyTradesService } from './Data/whiskey-trades.service';
 import { Direction, WhiskeyTrade, WhiskeyPosition, WhiskeyPrice } from './entities';
-import { WhiskeyDataService } from './whiskey-data.service';
 
 @Injectable({
   providedIn: 'root'

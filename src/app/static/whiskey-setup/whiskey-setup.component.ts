@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Whiskey } from 'src/app/entities';
-import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
 
 

@@ -4,7 +4,6 @@ import { WhiskeyTradesService } from 'src/app/Data/whiskey-trades.service';
 import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
 import { Direction, PersistencePayload, Whiskey, WhiskeyPrice, WhiskeyTrade } from 'src/app/entities';
 import { NotificationsService } from 'src/app/notifications.service';
-import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 
 @Component({
   selector: 'app-admin',
