@@ -4,6 +4,8 @@ import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
+
 
 @Component({
   selector: 'app-whiskey-setup',
@@ -14,7 +16,7 @@ export class WhiskeySetupComponent implements OnInit {
   faPlus = faPlus;
   faTimes = faTimes;
   
-  constructor(private data: WhiskeyDataService, private router: Router, private toastr: ToastrService) { }
+  constructor(private router: Router, private ws: WhiskeysService) { }
 
   rowData: Whiskey[] | null = null;
 
@@ -23,20 +25,16 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   getWhiskeys(): void {
-    this.data.getWhiskeys().subscribe(whiskeys => this.rowData = whiskeys.filter(w => w.active));
-    //this.rowData = this.data.getWhiskeys().filter(w => w.active);
+    this.ws.list().subscribe(whiskeys => this.rowData = whiskeys.filter(w => w.active));
   }
 
-
   public addNewWhiskey(): void {
-    const newWhiskey = this.data.addNewWhiskey("New Whiskey");
-    this.getWhiskeys();
+    this.ws.new("New Whiskey").subscribe(() => {this.getWhiskeys()});
   }
 
   public deleteWhiskey(whiskey: Whiskey): void {
     if (confirm("Are you sure you want to delete this whiskey?")) {
-      this.data.deleteWhiskey(whiskey);
-      this.getWhiskeys();
+      this.ws.delete(whiskey).subscribe(() => { this.getWhiskeys() });
     }
   }
 
