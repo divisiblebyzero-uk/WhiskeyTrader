@@ -5,6 +5,8 @@ import { DatePickerRendererComponent } from '../cellRenderers/date-picker-render
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
+import { WhiskeyTradesService } from '../Data/whiskey-trades.service';
+import { WhiskeysService } from '../Data/whiskeys-service.service';
 import { Direction, Whiskey, WhiskeyTrade } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 
@@ -18,7 +20,7 @@ export class TradesComponent implements OnInit {
 
   // With help from https://www.codeproject.com/Articles/5266363/agGrid-for-Angular-The-Missing-Manual
 
-  constructor(private data: WhiskeyDataService) {
+  constructor(private whiskeyTradesService: WhiskeyTradesService, private whiskeysService: WhiskeysService) {
     this.directions.push({id: 1, name: 'Buy'});
     this.directions.push({id: -1, name: 'Sell'});
   }
@@ -73,25 +75,25 @@ export class TradesComponent implements OnInit {
   }
 
   getWhiskeyTrades(): void {
-    this.rowData = this.data.getWhiskeyTrades().filter(w => w.active);
-    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
+    this.whiskeyTradesService.list().subscribe(trades => this.rowData = trades.filter(t => t.active));
+    this.whiskeysService.list().subscribe(whiskeys => this.whiskeys = whiskeys);
   }
 
   addNewWhiskeyTrade(): void {
-    this.data.getWhiskeys().subscribe(whiskeys => {
-      this.data.addNewWhiskeyTrade(whiskeys[0], 1, 0, Direction.Buy);
-      this.getWhiskeyTrades();
-    });
+    if (this.whiskeys) {
+
+      this.whiskeyTradesService.new(this.whiskeys[0], 1, 0, Direction.Buy).subscribe(() => this.getWhiskeyTrades());
+    }
   }
 
   public deleteRow(whiskeyTrade: WhiskeyTrade): void {
+
     if (confirm("Are you sure you want to delete this trade?")) {
-      this.data.deleteWhiskeyTrade(whiskeyTrade);
-      this.getWhiskeyTrades();
+      this.whiskeyTradesService.delete(whiskeyTrade).subscribe(() => { this.getWhiskeyTrades() });
     }
   }
 
   public saveEntry(event: any): void {
-    this.data.saveWhiskeyTrade(event.data);
+    this.whiskeyTradesService.save(event.data).subscribe(() => this.getWhiskeyTrades());
   }
 }

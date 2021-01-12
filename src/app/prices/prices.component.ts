@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { GridOptions, ValueGetterParams, ValueSetterParams } from 'ag-grid-community';
 import { Whiskey, WhiskeyPrice } from '../entities';
-import { WhiskeyDataService } from '../whiskey-data.service';
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DatePickerRendererComponent } from '../cellRenderers/date-picker-renderer/date-picker-renderer.component';
+import { WhiskeysService } from '../Data/whiskeys-service.service';
+import { WhiskeyPricesService } from '../Data/whiskey-prices.service';
 
 @Component({
   selector: 'app-prices',
@@ -18,7 +19,7 @@ export class PricesComponent implements OnInit {
 
   // With help from https://www.codeproject.com/Articles/5266363/agGrid-for-Angular-The-Missing-Manual
 
-  constructor(private data: WhiskeyDataService) {
+  constructor(private whiskeysService: WhiskeysService, private whiskeyPricesService: WhiskeyPricesService) {
   }
 
   rowData: WhiskeyPrice[] | null = null;
@@ -61,25 +62,23 @@ export class PricesComponent implements OnInit {
   }
 
   getWhiskeyPrices(): void {
-    this.rowData = this.data.getWhiskeyPrices().filter(wp => wp.active);
-    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
+    this.whiskeyPricesService.list().subscribe(prices => this.rowData = prices.filter(wp => wp.active));
+    this.whiskeysService.list().subscribe(ws => this.whiskeys = ws);
   }
 
   addNewWhiskeyPrice(): void {
-    this.data.getWhiskeys().subscribe(whiskeys => {
-      this.data.addNewWhiskeyPrice(whiskeys[0]);
-      this.getWhiskeyPrices();
-    });
+    if (this.whiskeys) {
+      this.whiskeyPricesService.new(this.whiskeys[0]).subscribe(wp => this.getWhiskeyPrices());
+    }
   }
 
   public deleteRow(whiskeyPrice: WhiskeyPrice): void {
     if (confirm("Are you sure you want to delete this price?")) {
-      this.data.deleteWhiskeyPrice(whiskeyPrice);
-      this.getWhiskeyPrices();
+      this.whiskeyPricesService.delete(whiskeyPrice).subscribe(() => this.getWhiskeyPrices());
     }
   }
 
   public saveEntry(event: any): void {
-    this.data.saveWhiskeyPrice(event.data);
+    this.whiskeyPricesService.save(event.data).subscribe(() => this.getWhiskeyPrices());
   }
 }

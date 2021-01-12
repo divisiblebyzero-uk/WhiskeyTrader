@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { WhiskeyPricesService } from 'src/app/Data/whiskey-prices.service';
+import { WhiskeyTradesService } from 'src/app/Data/whiskey-trades.service';
+import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
 import { Direction, PersistencePayload, Whiskey, WhiskeyPrice, WhiskeyTrade } from 'src/app/entities';
+import { NotificationsService } from 'src/app/notifications.service';
 import { WhiskeyDataService } from 'src/app/whiskey-data.service';
 
 @Component({
@@ -15,7 +19,12 @@ export class AdminComponent implements OnInit {
   whiskeyPrices: WhiskeyPrice[] | null = null;
   whiskeyTrades: WhiskeyTrade[] | null = null;
 
-  constructor(private data: WhiskeyDataService) { }
+  constructor(
+    private whiskeysService: WhiskeysService,
+    private whiskeyPricesService: WhiskeyPricesService,
+    private whiskeyTradesService: WhiskeyTradesService,
+    private notificationsService: NotificationsService
+  ) { }
 
 
 
@@ -24,17 +33,16 @@ export class AdminComponent implements OnInit {
   }
 
   public getData() {
-    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
-    this.whiskeyPrices = this.data.getWhiskeyPrices();
-    this.whiskeyTrades = this.data.getWhiskeyTrades();
+    this.whiskeysService.list().subscribe(whiskeys => this.whiskeys = whiskeys);
+    this.whiskeyPricesService.list().subscribe(prices => this.whiskeyPrices = prices);
+    this.whiskeyTradesService.list().subscribe(trades => this.whiskeyTrades = trades);
   }
 
   public deleteAll(): void {
-    this.data.deleteAll();
-    this.getData();
+    this.notificationsService.showError("No longer supported");
   }
 
-  private generatePrices(whiskey: Whiskey): number {
+  private generatePrices(whiskey: Whiskey): WhiskeyPrice[] {
     const prices: WhiskeyPrice[] = [];
     let firstPrice = Math.floor(Math.random()*400 + 50);
     let currentPrice = firstPrice;
@@ -43,36 +51,37 @@ export class AdminComponent implements OnInit {
       date.setDate(1);
       date.setMonth(date.getMonth() - i);
 
-      const price = this.data.addNewWhiskeyPrice(whiskey);
-      price.date = date;
-      
       const change = Math.floor(Math.random()*40 - 20);
 
       currentPrice = Math.floor(100*(currentPrice * (1 + change/100)))/100;
+
+      const price = { id: this.whiskeyPricesService.getNewId(), whiskeyId: whiskey.id, date: date, price: currentPrice, active: true };
+      
       price.price = currentPrice;
-      this.data.saveWhiskeyPrice(price);
+      prices.push(price);
     }
-    return firstPrice;
+    return prices;
   }
 
   public generate(): void {
-    const w: Whiskey = this.data.addNewWhiskey('Whiskey 1');
-    w.description = "The first whiskey I ever tasted";
-    w.distiller = "RuBrew";
-    this.data.saveWhiskey(w).subscribe (w => {
-      const latestPrice = this.generatePrices(w);
-      this.data.addNewWhiskeyTrade(w, 2, latestPrice, Direction.Buy);
-      this.data.addNewWhiskeyTrade(w, 1, latestPrice, Direction.Sell);
-      this.getData();
-    });
+    this.whiskeysService.new("Whiskey 1").subscribe(w => {
+      w.description = "The first whiskey I ever tasted";
+      w.distiller = "RuBrew";
 
+      const prices: WhiskeyPrice[] = this.generatePrices(w);
+      this.whiskeysService.save(w).subscribe(() => {});
+      prices.forEach(price => this.whiskeyPricesService.save(price).subscribe(() => {}));
+      const latestPrice = prices[0].price;
+      this.whiskeyTradesService.new(w, 2, latestPrice, Direction.Buy).subscribe(() => {});
+      this.whiskeyTradesService.new(w, 1, latestPrice, Direction.Sell).subscribe(() => {});
+    });
   }
 
   public download(): void {
     const payload: PersistencePayload = {
-      whiskeys: this.whiskeys?this.whiskeys:[],
-      whiskeyPrices: this.data.getWhiskeyPrices(),
-      whiskeyTrades: this.data.getWhiskeyTrades()
+      whiskeys: this.whiskeys??[],
+      whiskeyPrices: this.whiskeyPrices??[],
+      whiskeyTrades: this.whiskeyTrades??[]
     };
 
     const filename = 'whiskeytrader.json';
@@ -99,9 +108,9 @@ export class AdminComponent implements OnInit {
          reader.onload = (e) => {
             let json: string = reader.result as string;
             const payload: PersistencePayload = JSON.parse(json);
-            payload.whiskeys.forEach(w => this.data.saveWhiskey(w));
-            payload.whiskeyPrices.forEach(wp => this.data.saveWhiskeyPrice(wp));
-            payload.whiskeyTrades.forEach(wt => this.data.saveWhiskeyTrade(wt));
+            payload.whiskeys.forEach(w => this.whiskeysService.save(w).subscribe(() => {}));
+            payload.whiskeyPrices.forEach(price => this.whiskeyPricesService.save(price).subscribe(() => {}));
+            payload.whiskeyTrades.forEach(trade => this.whiskeyTradesService.save(trade).subscribe(() => {}));
             this.getData();
          }
       }

@@ -6,6 +6,8 @@ import { DatePickerRendererComponent } from '../cellRenderers/date-picker-render
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
+import { WhiskeyTradesService } from '../Data/whiskey-trades.service';
+import { WhiskeysService } from '../Data/whiskeys-service.service';
 import { Whiskey, WhiskeyPosition } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 import { WhiskeyPositionCalculatorService } from '../whiskey-position-calculator.service';
@@ -21,7 +23,7 @@ export class PositionsComponent implements OnInit {
 
   // With help from https://www.codeproject.com/Articles/5266363/agGrid-for-Angular-The-Missing-Manual
 
-  constructor(private data: WhiskeyDataService, private calc: WhiskeyPositionCalculatorService) {
+  constructor(private whiskeysService:WhiskeysService, private whiskeyTradesService: WhiskeyTradesService, private calc: WhiskeyPositionCalculatorService) {
   }
 
   rowData: WhiskeyPosition[] | null = null;
@@ -74,8 +76,8 @@ export class PositionsComponent implements OnInit {
   }
 
   getWhiskeyPositions(): void {
-    this.rowData = this.calc.getPositions();
-    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
+    this.calc.getPositions().then(positions => this.rowData = positions);
+    this.whiskeysService.list().subscribe(whiskeys => this.whiskeys = whiskeys);
   }
 
   currencyFormatter(params: ValueFormatterParams): any {

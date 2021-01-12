@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Color, Label } from 'ng2-charts';
+import { Color, Label, ThemeService } from 'ng2-charts';
 import { ChartDataSets, ChartOptions, ChartPoint, ChartType } from 'chart.js';
 import { WhiskeyDetails } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { WhiskeysService } from '../Data/whiskeys-service.service';
 
 @Component({
   selector: 'app-price-graph',
@@ -48,12 +49,12 @@ export class PriceGraphComponent implements OnInit {
   public chart: any;
 
 
-  constructor(private data: WhiskeyDataService, private route: ActivatedRoute) { }
+  constructor(private whiskeysService: WhiskeysService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const whiskeyId: string = params["id"];
-      this.data.getWhiskeyDetails(whiskeyId).then(whiskeyDetails => {
+      this.whiskeysService.getWhiskeyDetails(whiskeyId).then(whiskeyDetails => {
         const data: ChartPoint[] = [];
         const labels: Label[] = [];
         whiskeyDetails.prices.forEach(p => {
