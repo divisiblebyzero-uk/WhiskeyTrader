@@ -57,8 +57,7 @@ export class WhiskeyDetailsComponent implements OnInit {
   }
 
   public saveWhiskey(): void {
-    this.data.saveWhiskey(this.whiskeyDetails.whiskey);
-    this.loadData();
+    this.data.saveWhiskey(this.whiskeyDetails.whiskey).subscribe(w => this.loadData());
   }
 
 }

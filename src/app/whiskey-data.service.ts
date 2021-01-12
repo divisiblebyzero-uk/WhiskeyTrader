@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Direction, Whiskey, WhiskeyDetails, WhiskeyPrice, WhiskeyTrade } from './entities';
 import { environment as env } from '../environments/environment';
-import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
-import { catchError, publishReplay, refCount } from 'rxjs/operators';
+import { catchError, publishReplay, refCount, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NotificationsService } from './notifications.service';
 
@@ -68,21 +67,12 @@ export class WhiskeyDataService {
     this.whiskeys = null;
   }
 
-  public saveWhiskey(whiskey: Whiskey): void {
+  public saveWhiskey(whiskey: Whiskey): Observable<Whiskey> {
     whiskey.updated = new Date();
-
-    this.getWhiskeys().subscribe(whiskeys => {
-      whiskeys = whiskeys.filter(w => w.id != whiskey.id);
-      whiskeys.push(whiskey);
-  
-      this.saveWhiskeys(whiskeys);
-    });
-
-  }
-
-  private saveWhiskeys(whiskeys: Whiskey[]): void {
-    const jsonData = JSON.stringify(whiskeys);
-    localStorage.setItem(WhiskeyDataService.WHISKEYS_ITEM_KEY, jsonData);
+    return this.http.put<Whiskey>(this.WHISKEYS_URL, whiskey)
+    .pipe(
+      catchError(this.handleError<Whiskey>('getWhiskey', whiskey))
+    );
   }
 
   public addNewWhiskey(whiskeyName: string): Whiskey {

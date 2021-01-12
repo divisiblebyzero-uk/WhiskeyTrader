@@ -59,12 +59,13 @@ export class AdminComponent implements OnInit {
     const w: Whiskey = this.data.addNewWhiskey('Whiskey 1');
     w.description = "The first whiskey I ever tasted";
     w.distiller = "RuBrew";
-    this.data.saveWhiskey(w);
+    this.data.saveWhiskey(w).subscribe (w => {
+      const latestPrice = this.generatePrices(w);
+      this.data.addNewWhiskeyTrade(w, 2, latestPrice, Direction.Buy);
+      this.data.addNewWhiskeyTrade(w, 1, latestPrice, Direction.Sell);
+      this.getData();
+    });
 
-    const latestPrice = this.generatePrices(w);
-    this.data.addNewWhiskeyTrade(w, 2, latestPrice, Direction.Buy);
-    this.data.addNewWhiskeyTrade(w, 1, latestPrice, Direction.Sell);
-    this.getData();
   }
 
   public download(): void {
