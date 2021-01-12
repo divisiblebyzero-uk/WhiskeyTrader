@@ -24,7 +24,7 @@ export class AdminComponent implements OnInit {
   }
 
   public getData() {
-    this.whiskeys = this.data.getWhiskeys();
+    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
     this.whiskeyPrices = this.data.getWhiskeyPrices();
     this.whiskeyTrades = this.data.getWhiskeyTrades();
   }
@@ -69,7 +69,7 @@ export class AdminComponent implements OnInit {
 
   public download(): void {
     const payload: PersistencePayload = {
-      whiskeys: this.data.getWhiskeys(),
+      whiskeys: this.whiskeys?this.whiskeys:[],
       whiskeyPrices: this.data.getWhiskeyPrices(),
       whiskeyTrades: this.data.getWhiskeyTrades()
     };

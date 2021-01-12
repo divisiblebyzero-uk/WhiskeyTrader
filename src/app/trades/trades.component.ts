@@ -5,7 +5,7 @@ import { DatePickerRendererComponent } from '../cellRenderers/date-picker-render
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
-import { Direction, WhiskeyTrade } from '../entities';
+import { Direction, Whiskey, WhiskeyTrade } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 
 @Component({
@@ -27,11 +27,13 @@ export class TradesComponent implements OnInit {
 
   rowData: WhiskeyTrade[] | null = null;
 
+  whiskeys: Whiskey[] | null = null;
+
   columnDefs = [
     //{ field: 'id' },
     { headerName: 'Whiskey Name', field: 'whiskeyId',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
-      valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
+      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.whiskeys?this.whiskeys.filter(w => w.active):null,
+      valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
     },
     { field: 'numberOfBottles' },
     { field: 'pricePerBottle' },
@@ -72,11 +74,14 @@ export class TradesComponent implements OnInit {
 
   getWhiskeyTrades(): void {
     this.rowData = this.data.getWhiskeyTrades().filter(w => w.active);
+    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
   }
 
   addNewWhiskeyTrade(): void {
-    this.data.addNewWhiskeyTrade(this.data.getWhiskeys()[0], 1, 0, Direction.Buy);
-    this.getWhiskeyTrades();
+    this.data.getWhiskeys().subscribe(whiskeys => {
+      this.data.addNewWhiskeyTrade(whiskeys[0], 1, 0, Direction.Buy);
+      this.getWhiskeyTrades();
+    });
   }
 
   public deleteRow(whiskeyTrade: WhiskeyTrade): void {

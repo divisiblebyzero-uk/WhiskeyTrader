@@ -23,7 +23,7 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   getWhiskeys(): void {
-    this.data.getWhiskeysNew().subscribe(whiskeys => this.rowData = this.data.getWhiskeys().filter(w => w.active));
+    this.data.getWhiskeys().subscribe(whiskeys => this.rowData = whiskeys.filter(w => w.active));
     //this.rowData = this.data.getWhiskeys().filter(w => w.active);
   }
 

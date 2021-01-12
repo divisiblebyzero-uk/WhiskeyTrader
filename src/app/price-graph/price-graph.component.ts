@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./price-graph.component.scss']
 })
 export class PriceGraphComponent implements OnInit {
-  
+
   priceData: any = [];
 
   public lineChartData: ChartDataSets[] = [];
@@ -19,7 +19,7 @@ export class PriceGraphComponent implements OnInit {
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {
-      xAxes: [{ type: 'time', distribution: 'linear', time: { tooltipFormat:'DD MMM YYYY', unit: 'day' } }],
+      xAxes: [{ type: 'time', distribution: 'linear', time: { tooltipFormat: 'DD MMM YYYY', unit: 'day' } }],
       yAxes: [
         {
           id: 'y-axis-0',
@@ -53,7 +53,7 @@ export class PriceGraphComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const whiskeyId: string = params["id"];
-      const whiskeyDetails = this.data.getWhiskeyDetails(whiskeyId);
+      this.data.getWhiskeyDetails(whiskeyId).then(whiskeyDetails => {
         const data: ChartPoint[] = [];
         const labels: Label[] = [];
         whiskeyDetails.prices.forEach(p => {
@@ -61,7 +61,8 @@ export class PriceGraphComponent implements OnInit {
           labels.push(p.date.toString());
         });
         this.setData(data, labels);
-      });
+        });
+    });
   }
 
   public setData(data: ChartPoint[], labels: Label[]): void {

@@ -22,12 +22,13 @@ export class PricesComponent implements OnInit {
   }
 
   rowData: WhiskeyPrice[] | null = null;
+  whiskeys: Whiskey[] | null = null;
 
   columnDefs = [
     //{ field: 'id' },
     { headerName: 'Whiskey Name', field: 'whiskeyId',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
-      valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name,
+      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.whiskeys?this.whiskeys.filter(w => w.active):null,
+      valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
     },
     { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy', cellEditor: 'datePickerRendererComponent' },
     { field: 'price' },
@@ -61,11 +62,14 @@ export class PricesComponent implements OnInit {
 
   getWhiskeyPrices(): void {
     this.rowData = this.data.getWhiskeyPrices().filter(wp => wp.active);
+    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
   }
 
   addNewWhiskeyPrice(): void {
-    this.data.addNewWhiskeyPrice(this.data.getWhiskeys()[0]);
-    this.getWhiskeyPrices();
+    this.data.getWhiskeys().subscribe(whiskeys => {
+      this.data.addNewWhiskeyPrice(whiskeys[0]);
+      this.getWhiskeyPrices();
+    });
   }
 
   public deleteRow(whiskeyPrice: WhiskeyPrice): void {

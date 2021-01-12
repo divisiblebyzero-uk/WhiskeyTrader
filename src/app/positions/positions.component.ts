@@ -6,7 +6,7 @@ import { DatePickerRendererComponent } from '../cellRenderers/date-picker-render
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
-import { WhiskeyPosition } from '../entities';
+import { Whiskey, WhiskeyPosition } from '../entities';
 import { WhiskeyDataService } from '../whiskey-data.service';
 import { WhiskeyPositionCalculatorService } from '../whiskey-position-calculator.service';
 
@@ -25,11 +25,12 @@ export class PositionsComponent implements OnInit {
   }
 
   rowData: WhiskeyPosition[] | null = null;
+  whiskeys: Whiskey[] | null = null;
 
   columnDefs = [
     { headerName: 'Whiskey Name', field: 'whiskeyId',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.data.getWhiskeys().filter(w => w.active),
-      valueGetter: (params: ValueGetterParams) => this.data.getWhiskeys().find(w => w.id == params.data.whiskeyId)?.name, pinned: 'left',
+      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.whiskeys?this.whiskeys.filter(w => w.active):null,
+      valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
       minWidth: 130,
       maxWidth: 200
     },
@@ -74,6 +75,7 @@ export class PositionsComponent implements OnInit {
 
   getWhiskeyPositions(): void {
     this.rowData = this.calc.getPositions();
+    this.data.getWhiskeys().subscribe(whiskeys => this.whiskeys = whiskeys);
   }
 
   currencyFormatter(params: ValueFormatterParams): any {

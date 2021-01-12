@@ -3,8 +3,9 @@ import { Direction, Whiskey, WhiskeyDetails, WhiskeyPrice, WhiskeyTrade } from '
 import { environment as env } from '../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, publishReplay, refCount } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { NotificationsService } from './notifications.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,7 @@ export class WhiskeyDataService {
   private WHISKEYPRICES_URL = this.BASE_API_URL + "/whiskeyprices";
   private WHISKEYTRADES_URL = this.BASE_API_URL + "/whiskeytrades";
 
-  constructor(private toastr: ToastrService, private http: HttpClient) { }
-
-  private showError(message: string): void {
-    this.toastr.error(message, 'Communications Error', {
-      disableTimeOut: true,
-      positionClass: 'toast-bottom-right'
-    });
-  }
+  constructor(private notifications: NotificationsService, private http: HttpClient) { }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -36,7 +30,7 @@ export class WhiskeyDataService {
       console.error(error); // log to console instead
   
       // TODO: better job of transforming error for user consumption
-      this.showError(`${operation} failed: ${error.message}`);
+      this.notifications.showError(`${operation} failed: ${error.message}`);
   
       // Let the app keep running by returning an empty result.
       return of(result as T);
@@ -53,31 +47,37 @@ export class WhiskeyDataService {
     return stringArr.join('-');
   }
 
-  public getWhiskeysNew(): Observable<Whiskey[]> {
-    return this.http.get<Whiskey[]>(this.WHISKEYS_URL)
-    .pipe(
-      catchError (this.handleError<Whiskey[]>('getWhiskeys', []))
-    );
+  whiskeys: Observable<Whiskey[]>|null = null;
+  whiskeyPrices: Observable<WhiskeyPrice[]>|null = null;
+  whiskeyTrades: Observable<WhiskeyTrade[]>|null = null;
+
+  public getWhiskeys(): Observable<Whiskey[]> {
+    if (!this.whiskeys) {
+      console.log("whiskey cache empty - fetching from server");
+      this.whiskeys = this.http.get<Whiskey[]>(this.WHISKEYS_URL)
+      .pipe(
+        catchError (this.handleError<Whiskey[]>('getWhiskeys', [])),
+        publishReplay(1),
+        refCount()
+      )
+    }
+    return this.whiskeys;
   }
 
-  public getWhiskeys(): Whiskey[] {
-    const jsonData = localStorage.getItem(WhiskeyDataService.WHISKEYS_ITEM_KEY);
-    if (jsonData) {
-      return JSON.parse(jsonData);
-    } else {
-      return [];
-    }
+  private clearWhiskeysCache() {
+    this.whiskeys = null;
   }
 
   public saveWhiskey(whiskey: Whiskey): void {
     whiskey.updated = new Date();
 
-    let whiskeys: Whiskey[] = this.getWhiskeys();
+    this.getWhiskeys().subscribe(whiskeys => {
+      whiskeys = whiskeys.filter(w => w.id != whiskey.id);
+      whiskeys.push(whiskey);
+  
+      this.saveWhiskeys(whiskeys);
+    });
 
-    whiskeys = whiskeys.filter(w => w.id != whiskey.id);
-    whiskeys.push(whiskey);
-
-    this.saveWhiskeys(whiskeys);
   }
 
   private saveWhiskeys(whiskeys: Whiskey[]): void {
@@ -171,20 +171,28 @@ export class WhiskeyDataService {
     this.saveWhiskeyTrade(whiskeyTrade);
   }
 
-  public getWhiskeyName(whiskeyId: string): string {
-    const result = this.getWhiskeys().find(whiskey => whiskey.id == whiskeyId);
-    return result?result.name:'Undefined';
+  public getWhiskeyName(whiskeyId: string): Promise<string> {
+    return new Promise<string>(resolve => {
+      this.getWhiskeys().subscribe(whiskeys => {
+        const result = whiskeys.find(whiskey => whiskey.id == whiskeyId);
+        resolve(result?result.name:'Undefined');
+      });
+    });
   }
 
-  public getWhiskeyDetails(whiskeyId: string): WhiskeyDetails {
-    const whiskey = this.getWhiskeys().find(w => w.id == whiskeyId);
-    if (whiskey) {
-      return {
-        whiskey: whiskey,
-        prices: this.getWhiskeyPrices().filter(wp => wp.whiskeyId == whiskeyId && wp.active)
-      }
-    } else {
-      throw 'Whiskey not found: ' + whiskeyId;
-    }
+  public getWhiskeyDetails(whiskeyId: string): Promise<WhiskeyDetails> {
+    return new Promise<WhiskeyDetails>(resolve => {
+      this.getWhiskeys().subscribe(whiskeys => {
+        const whiskey: Whiskey | undefined = whiskeys.find(w => w.id == whiskeyId);
+        if (whiskey) {
+          resolve({
+            whiskey: whiskey,
+            prices: this.getWhiskeyPrices().filter(wp => wp.whiskeyId == whiskeyId && wp.active)
+          });
+        } else {
+          throw 'Whiskey not found: ' + whiskeyId;
+        }
+      });
+    });
   }
 }

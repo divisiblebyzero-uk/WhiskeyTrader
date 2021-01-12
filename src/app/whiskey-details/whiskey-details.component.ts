@@ -43,7 +43,7 @@ export class WhiskeyDetailsComponent implements OnInit {
   private loadData(): void {
     this.route.params.subscribe(params => {
       this.whiskeyId = params['id'];
-      this.whiskeyDetails = this.data.getWhiskeyDetails(this.whiskeyId);
+      this.data.getWhiskeyDetails(this.whiskeyId).then(whiskeyDetails => { this.whiskeyDetails = whiskeyDetails});
       this.editMode = false;
     });
   }
