@@ -63,8 +63,8 @@ export class WhiskeyPositionCalculatorService {
   
           whiskeyIds.forEach(whiskeyId => {
             const trades = allTrades.filter(t => t.whiskeyId == whiskeyId).sort((a, b) => { return new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1 });
-            const buyTrades = trades.filter(t => t.direction == Direction.Buy);
-            const sellTrades = trades.filter(t => t.direction == Direction.Sell);
+            const buyTrades = JSON.parse(JSON.stringify(trades.filter(t => t.direction == Direction.Buy)));
+            const sellTrades = JSON.parse(JSON.stringify(trades.filter(t => t.direction == Direction.Sell)));
   
             console.log(JSON.stringify(trades));
             console.log(JSON.stringify(buyTrades));

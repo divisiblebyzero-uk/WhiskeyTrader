@@ -28,7 +28,7 @@ export class PricesComponent implements OnInit {
   columnDefs = [
     //{ field: 'id' },
     { headerName: 'Whiskey Name', field: 'whiskeyId',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.whiskeys?this.whiskeys.filter(w => w.active):null,
+      cellEditor: 'dropDownListRendererComponent', cellEditorParams: <Whiskey[]>[],
       valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
     },
     { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy', cellEditor: 'datePickerRendererComponent' },
@@ -36,7 +36,7 @@ export class PricesComponent implements OnInit {
     { cellRenderer: 'deleteButtonRendererComponent'}
   ];
 
-  gridOptions = {
+  gridOptions: GridOptions = {
     defaultColDef: {
       resizable: true,
       sortable: true,
@@ -50,7 +50,8 @@ export class PricesComponent implements OnInit {
       deleteButtonRendererComponent: DeleteButtonComponent,
       datePickerRendererComponent: DatePickerRendererComponent
      },
-     context: { componentParent: this }
+     context: { componentParent: this },
+     api: null
   };
 
   onFirstDataRendered(params:any) {
@@ -61,9 +62,26 @@ export class PricesComponent implements OnInit {
     this.getWhiskeyPrices();
   }
 
+  comparePrices(a: WhiskeyPrice, b: WhiskeyPrice): number {
+    if (a.whiskeyId == b.whiskeyId) {
+      return (new Date(b.date).getTime() - new Date(a.date).getTime());
+    } else {
+      return a.whiskeyId>b.whiskeyId?1:-1;
+    }
+  }
+
   getWhiskeyPrices(): void {
-    this.whiskeyPricesService.list().subscribe(prices => this.rowData = prices.filter(wp => wp.active));
-    this.whiskeysService.list().subscribe(ws => this.whiskeys = ws);
+    this.whiskeysService.list().subscribe(ws => {
+      this.whiskeys = ws.filter(w => w.active);
+      const columnDef = this.columnDefs.find(cd => "whiskeyId" == cd.field);
+      if (columnDef) columnDef.cellEditorParams = this.whiskeys;
+      this.gridOptions.api?.setColumnDefs(this.columnDefs);
+
+      this.whiskeyPricesService.list().subscribe(prices => {
+        this.rowData = prices.filter(wp => wp.active);
+        this.rowData.sort(this.comparePrices)
+      });
+    });
   }
 
   addNewWhiskeyPrice(): void {

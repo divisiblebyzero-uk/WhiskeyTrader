@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ValueGetterParams } from 'ag-grid-community';
+import { GridOptions, ValueGetterParams } from 'ag-grid-community';
 import { DatePickerRendererComponent } from '../cellRenderers/date-picker-renderer/date-picker-renderer.component';
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
@@ -33,7 +33,7 @@ export class TradesComponent implements OnInit {
   columnDefs = [
     //{ field: 'id' },
     { headerName: 'Whiskey Name', field: 'whiskeyId',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.whiskeys?this.whiskeys.filter(w => w.active):null,
+      cellEditor: 'dropDownListRendererComponent', cellEditorParams: <Whiskey[]>[],
       valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
     },
     { field: 'numberOfBottles' },
@@ -46,7 +46,7 @@ export class TradesComponent implements OnInit {
     { cellRenderer: 'deleteButtonRendererComponent'}
   ];
 
-  gridOptions = {
+  gridOptions: GridOptions = {
     defaultColDef: {
       resizable: true,
       sortable: true,
@@ -60,7 +60,8 @@ export class TradesComponent implements OnInit {
       deleteButtonRendererComponent: DeleteButtonComponent,
       datePickerRendererComponent: DatePickerRendererComponent
      },
-     context: { componentParent: this }
+     context: { componentParent: this },
+     api: null
   };
 
   onFirstDataRendered(params:any) {
@@ -74,8 +75,14 @@ export class TradesComponent implements OnInit {
   }
 
   getWhiskeyTrades(): void {
-    this.whiskeyTradesService.list().subscribe(trades => this.rowData = trades.filter(t => t.active));
-    this.whiskeysService.list().subscribe(whiskeys => this.whiskeys = whiskeys);
+
+    this.whiskeysService.list().subscribe(ws => {
+      this.whiskeys = ws.filter(w => w.active);
+      const columnDef = this.columnDefs.find(cd => "whiskeyId" == cd.field);
+      if (columnDef) columnDef.cellEditorParams = this.whiskeys;
+      this.gridOptions.api?.setColumnDefs(this.columnDefs);
+      this.whiskeyTradesService.list().subscribe(trades => this.rowData = trades.filter(t => t.active));
+    });
   }
 
   addNewWhiskeyTrade(): void {
