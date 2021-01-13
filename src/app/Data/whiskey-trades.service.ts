@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Direction } from 'readline';
 import { Observable } from 'rxjs';
-import { Whiskey, WhiskeyTrade } from '../entities';
+import { Whiskey, WhiskeyTrade, Direction } from '../entities';
 import { NotificationsService } from '../notifications.service';
 import { CrudService } from './crud.service';
 
