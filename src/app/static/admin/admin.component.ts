@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { WhiskeyPricesService } from 'src/app/Data/whiskey-prices.service';
 import { WhiskeyTradesService } from 'src/app/Data/whiskey-trades.service';
 import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
@@ -22,7 +23,8 @@ export class AdminComponent implements OnInit {
     private whiskeysService: WhiskeysService,
     private whiskeyPricesService: WhiskeyPricesService,
     private whiskeyTradesService: WhiskeyTradesService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private sanitizer: DomSanitizer
   ) { }
 
 
@@ -76,6 +78,8 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  public downloadJsonHref: SafeUrl = '';
+
   public download(): void {
     const payload: PersistencePayload = {
       whiskeys: this.whiskeys??[],
@@ -83,13 +87,9 @@ export class AdminComponent implements OnInit {
       whiskeyTrades: this.whiskeyTrades??[]
     };
 
-    const filename = 'whiskeytrader.json';
-    const mime = 'application/json';
-    const content = JSON.stringify(payload);
-
     const link: HTMLAnchorElement = document.createElement('a');
-    link.download = filename;
-    link.href = 'data:' + mime + ';charset=utf-16,' + content;
+    link.download = "whiskeytrader.json";
+    link.href = "data:text/jsonlcharset=UTF-16," + encodeURIComponent(JSON.stringify(payload));
     link.click();
     link.remove();
   }
