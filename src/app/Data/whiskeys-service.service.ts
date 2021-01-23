@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CrudService } from './crud.service';
 import { Whiskey, WhiskeyDetails } from '../entities';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { WhiskeyPricesService } from './whiskey-prices.service';
 import { NotificationsService } from '../notifications.service';
 
@@ -16,6 +17,10 @@ export class WhiskeysService extends CrudService<Whiskey> {
 
   get path(): string {
     return 'whiskeys';
+  }
+
+  list(): Observable<Whiskey[]> {
+    return super.list().pipe(tap(results => results.sort((a, b) => a.name<b.name?-1:1)));
   }
 
   new(whiskeyName: string): Observable<Whiskey> {
