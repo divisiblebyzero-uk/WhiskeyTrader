@@ -25,7 +25,8 @@ export class WhiskeyPricesService extends CrudService<WhiskeyPrice> {
   public getLatestPrice(whiskeyId: string): Promise<number> {
     return new Promise<number>(resolve => {
       this.list().subscribe(ps => {
-        resolve(ps.filter(p => p.whiskeyId == whiskeyId && p.active).sort((a,b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[0].price);
+        const prices = ps.filter(p => p.whiskeyId == whiskeyId && p.active);
+        resolve(ps.filter(p => p.whiskeyId == whiskeyId && p.active).sort((a,b) => (new Date(a.date).getTime() - new Date(b.date).getTime()))[0].price);
       });
     });
   }

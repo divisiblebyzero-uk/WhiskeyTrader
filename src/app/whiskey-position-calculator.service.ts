@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WhiskeyPricesService } from './Data/whiskey-prices.service';
 import { WhiskeyTradesService } from './Data/whiskey-trades.service';
 import { Direction, WhiskeyTrade, WhiskeyPosition, WhiskeyPrice } from './entities';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -40,16 +41,9 @@ export class WhiskeyPositionCalculatorService {
 
   public getPositions(): Promise<WhiskeyPosition[]> {
     return new Promise<WhiskeyPosition[]>(resolve => {
-      this.whiskeyPricesService.list().subscribe(prices => {
+      this.whiskeyPricesService.list().pipe(tap(prices => prices.sort((a,b) => {return new Date(b.date).getTime() - new Date(a.date).getTime()}))).subscribe(prices => {
         const latestPriceMap: Map<string, WhiskeyPrice> = prices.reduce<Map<string, WhiskeyPrice>>((map, price) => {
-  
-          if (map.has(price.whiskeyId)) {
-            const existingPrice = map.get(price.whiskeyId);
-            if (existingPrice)
-              if (this.compareDates(existingPrice, price) < 0) {
-                map.set(price.whiskeyId, price);
-              }
-          } else {
+            if (!map.has(price.whiskeyId)) {
             map.set(price.whiskeyId, price);
           }
           return map;
