@@ -27,7 +27,7 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   public addNewWhiskey(): void {
-    this.ws.new("New Whiskey").subscribe(() => {this.getWhiskeys()});
+    this.ws.new("New Whiskey").subscribe((w: Whiskey) => {this.showDetails(w)});
   }
 
   public deleteWhiskey(whiskey: Whiskey): void {
