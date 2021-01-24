@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.3.
 
+![Build](https://github.com/divisiblebyzero-uk/WhiskeyTrader/workflows/Build/badge.svg)
+![Deploy](https://github.com/divisiblebyzero-uk/WhiskeyTrader/workflows/Deploy/badge.svg)
 
 ## Development server
 
