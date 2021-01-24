@@ -35,17 +35,12 @@ jobs:
           npm ci
           npm run build --prod
 
-      - name: debug
-        run: |
-          echo ${{ secrets.DEPLOY_SERVERNAME }}
-          echo ${{ secrets.DEPLOY_USERNAME }}
-          echo "${{ secrets.DEPLOY_PASSWORD }}"
-
-      - name: FTP-Deploy-Action
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      - name: deploy
+        uses: ./.github/actions/deploy-with-sftp-javascript
         with:
-          server: home155661940.1and1-data.host
-          username: u39901709-deploy-wky
-          password: "PpfYMpXI5Z4m!"
-          local-dir: ./dist/WhiskeyTrader/
-          log-level: verbose
+          hostname: ${{ secrets.DEPLOY_SERVERNAME }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          source: './dist/WhiskeyTrader'
+          target: '.'
+  
