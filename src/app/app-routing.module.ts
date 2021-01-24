@@ -4,7 +4,6 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { AccountInformationComponent } from './auth/account-information/account-information.component';
 import { PositionsComponent } from './positions/positions.component';
 import { PricesComponent } from './prices/prices.component';
-import { ServerCommunicationsComponent } from './server-communications/server-communications.component';
 import { AdminComponent } from './static/admin/admin.component';
 import { WhiskeySetupComponent } from './static/whiskey-setup/whiskey-setup.component';
 import { TradesComponent } from './trades/trades.component';
@@ -19,8 +18,7 @@ const routes: Routes = [
   {path: 'whiskey-setup', component: WhiskeySetupComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'whiskey-details/:id', component: WhiskeyDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'account-information', component: AccountInformationComponent, canActivate: [AuthGuard]},
-  {path: 'server-communications', component: ServerCommunicationsComponent}
+  {path: 'account-information', component: AccountInformationComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -6,7 +6,7 @@ import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
 import { WhiskeyTradesService } from '../Data/whiskey-trades.service';
-import { WhiskeysService } from '../Data/whiskeys-service.service';
+import { WhiskeysService } from '../Data/whiskeys.service';
 import { Whiskey, WhiskeyPosition } from '../entities';
 import { WhiskeyPositionCalculatorService } from '../whiskey-position-calculator.service';
 

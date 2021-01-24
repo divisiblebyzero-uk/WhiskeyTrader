@@ -28,7 +28,6 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
 import { AccountInformationComponent } from './auth/account-information/account-information.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { ServerCommunicationsComponent } from './server-communications/server-communications.component';
 import { environment as env } from '../environments/environment';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -54,8 +53,7 @@ import { ToastrModule } from 'ngx-toastr';
     PriceGraphComponent,
     AuthButtonComponent,
     AccountInformationComponent,
-    WelcomeComponent,
-    ServerCommunicationsComponent
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

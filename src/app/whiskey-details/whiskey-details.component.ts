@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { WhiskeyDetails } from '../entities';
 
 import { PriceGraphComponent } from '../price-graph/price-graph.component';
-import { WhiskeysService } from '../Data/whiskeys-service.service';
+import { WhiskeysService } from '../Data/whiskeys.service';
 
 @Component({
   selector: 'app-whiskey-details',
