@@ -5,7 +5,7 @@
 
 A Whiskey Trading / record-keeping application.
 
-This repo contains the web client. See also a divisiblebyzero-uk/WhiskeyTrader-Server repo which contains a PHP server-side implementation.
+This repo contains the web client. See also https://github.com/divisiblebyzero-uk/WhiskeyTrader-Server repo which contains a PHP server-side implementation.
 
 ## Development server
 
