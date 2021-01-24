@@ -44,8 +44,8 @@ jobs:
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ${{ secrets.DEPLOY_SERVERNAME }}
-          username: ${{ secrets.DEPLOY_USERNAME }}
-          password: "${{ secrets.DEPLOY_PASSWORD }}"
+          server: home155661940.1and1-data.host
+          username: u39901709-deploy-wky
+          password: "PpfYMpXI5Z4m!"
           local-dir: ./dist/WhiskeyTrader/
           log-level: verbose
