@@ -42,3 +42,4 @@ jobs:
           ftp-username: ${{ secrets.DEPLOY_USERNAME }}
           ftp-password: "${{ secrets.DEPLOY_PASSWORD }}"
           local-dir: ./dist/WhiskeyTrader/
+          log-level: verbose
