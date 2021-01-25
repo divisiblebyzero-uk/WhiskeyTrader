@@ -18,7 +18,7 @@ export abstract class CrudService<T extends { id?: string, active: boolean }> {
     return env.api.serverUrl + "/api/data/" + this.path;
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation: string, result?: T) {
     return (error: any): Observable<T> => {
   
       // TODO: send the error to remote logging infrastructure
@@ -67,7 +67,7 @@ export abstract class CrudService<T extends { id?: string, active: boolean }> {
   }
 
   save(value: T): Observable<T> {
-    return this._http.post<T>(`${this.url}`, value).pipe(
+    return this._http.put<T>(`${this.url}`, value).pipe(
       catchError (this.handleError<T>('save')),
       tap((_value: T) => {
         const values: T[] = [...this.values$.value].filter(v => v.id != _value.id);
@@ -83,15 +83,6 @@ export abstract class CrudService<T extends { id?: string, active: boolean }> {
     return this.save(value);
   }
 
-  editValue(value: T, _value: T) {
-    const values: T[] = [...this.values$.value];
-    const valueIndex: number = values.findIndex(
-      (item: T) => item.id === value.id
-    );
-    values[valueIndex] = _value;
-    this.values$.next(values);
-    return _value;
-  }
 }
 
 
