@@ -13,17 +13,20 @@ import { Subscription } from 'rxjs';
 describe('Whiskeys Service', () => {
   let service: WhiskeysService;
   let httpMock: HttpTestingController;
+  let notificationsService: NotificationsService;
+
+  const whiskey1: Whiskey = {
+    id: '1',
+    name: 'whiskey1',
+    distiller: 'distiller1',
+    description: 'description',
+    updated: new Date(),
+    created: new Date(),
+    active: true
+  };
 
   const dummyWhiskeys: Whiskey[] = [
-    {
-      id: '1',
-      name: 'whiskey1',
-      distiller: 'distiller1',
-      description: 'description',
-      updated: new Date(),
-      created: new Date(),
-      active: true
-    },
+    whiskey1,
     {
       id: '2',
       name: 'inactive whiskey',
@@ -55,7 +58,8 @@ describe('Whiskeys Service', () => {
     service = TestBed.inject(WhiskeysService);
     httpMock = TestBed.inject(HttpTestingController);
 
-
+    notificationsService = TestBed.inject(NotificationsService);
+    spyOn(notificationsService, "showError");
   });
 
   it('should be created', () => {
@@ -100,11 +104,11 @@ describe('Whiskeys Service', () => {
     request.flush(dummyWhiskeys);
 
     const request2 = httpMock.expectOne(env.api.serverUrl + "/api/data/whiskeys");
-    expect(request2.request.method).toBe("POST");
+    expect(request2.request.method).toBe("PUT");
     request2.flush(request2.request.body);
 
     httpMock.verify();
-  })
+  });
 
   it('name found', () => {
     service.name("1").then(name => {
@@ -128,6 +132,46 @@ describe('Whiskeys Service', () => {
     httpMock.verify();
   });
 
+  it('get a specific whiskey', () => {
+    service.get("1").subscribe(whiskey => {
+      expect(JSON.stringify(whiskey)).toBe(JSON.stringify(whiskey1));
+    });
+    const request = httpMock.expectOne(env.api.serverUrl + "/api/data/whiskeys/1");
+    expect(request.request.method).toBe("GET");
+    request.flush(dummyWhiskeys);
+    httpMock.verify();
+  });
 
+
+  it('delete whiskey', () => {
+    const originalJSON: string = JSON.stringify(whiskey1);
+    service.delete(whiskey1).subscribe(whiskey => {
+      expect(whiskey.active).toBeFalsy();
+      whiskey.active = true;
+      expect(JSON.stringify(whiskey)).toBe(originalJSON);
+    });
+
+    const request2 = httpMock.expectOne(env.api.serverUrl + "/api/data/whiskeys");
+    expect(request2.request.method).toBe("PUT");
+    request2.flush(request2.request.body);
+    httpMock.verify();
+  });
+
+  it('get whiskey that doesnt exist', () => {
+    const duffId = "unknown-id";
+    const url = env.api.serverUrl + "/api/data/whiskeys/" + duffId;
+
+    service.get(duffId).subscribe(response => expect(response).toBeUndefined());
+    const request = httpMock.expectOne(url);
+    expect(request.request.method).toBe("GET");
+    const operation = 'get';
+    const errorMessage = 'Object not found';
+    const statusCode = 404;
+    const statusText = 'Not found';
+    const notificationMessage = `${operation} failed: Http failure response for ${url}: ${statusCode} ${statusText}`;
+    request.flush(errorMessage, { status: statusCode, statusText: statusText});
+    httpMock.verify();
+    expect(notificationsService.showError).toHaveBeenCalledWith(notificationMessage);
+  });
 
 });
