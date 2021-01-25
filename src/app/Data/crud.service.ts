@@ -46,9 +46,10 @@ export abstract class CrudService<T extends { id?: string, active: boolean }> {
 
   list(): Observable<T[]> {
     if (this.fetched && this.values$.value && this.cache) {
+      console.log(`Returning cached ${this.path}`);
       return this.values$.asObservable();
     }
-    console.log("Not found: fetching");
+    console.log(`No cache found: hitting ${this.url}`);
     return this._http.get<T[]>(`${this.url}`).pipe(
       switchMap((values: T[]) => {
         this.values$.next(values);
@@ -66,7 +67,7 @@ export abstract class CrudService<T extends { id?: string, active: boolean }> {
   }
 
   save(value: T): Observable<T> {
-    return this._http.put<T>(`${this.url}`, value).pipe(
+    return this._http.post<T>(`${this.url}`, value).pipe(
       catchError (this.handleError<T>('save')),
       tap((_value: T) => {
         const values: T[] = [...this.values$.value].filter(v => v.id != _value.id);

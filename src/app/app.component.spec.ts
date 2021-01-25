@@ -1,15 +1,21 @@
+import { Component, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
+import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
+
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        NgbModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        MockAuthButtonComponent,
       ],
     }).compileComponents();
   });
@@ -30,6 +36,15 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('WhiskeyTrader app is running!');
+    expect(compiled.querySelector('.navbar-brand').textContent).toContain('Whiskey Trader');
   });
 });
+
+
+@Component({
+  selector: 'app-auth-button',
+  template: ''
+})
+class MockAuthButtonComponent {
+
+}

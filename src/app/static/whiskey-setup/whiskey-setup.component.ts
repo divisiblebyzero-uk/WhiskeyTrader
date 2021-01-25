@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Whiskey } from 'src/app/entities';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
+import { WhiskeysService } from 'src/app/Data/whiskeys.service';
 
 
 @Component({

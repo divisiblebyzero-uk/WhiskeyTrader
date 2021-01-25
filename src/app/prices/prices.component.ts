@@ -6,7 +6,7 @@ import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-r
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
 import { DatePickerRendererComponent } from '../cellRenderers/date-picker-renderer/date-picker-renderer.component';
-import { WhiskeysService } from '../Data/whiskeys-service.service';
+import { WhiskeysService } from '../Data/whiskeys.service';
 import { WhiskeyPricesService } from '../Data/whiskey-prices.service';
 
 @Component({

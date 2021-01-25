@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { WhiskeyPricesService } from 'src/app/Data/whiskey-prices.service';
 import { WhiskeyTradesService } from 'src/app/Data/whiskey-trades.service';
-import { WhiskeysService } from 'src/app/Data/whiskeys-service.service';
+import { WhiskeysService } from 'src/app/Data/whiskeys.service';
 import { Direction, PersistencePayload, Whiskey, WhiskeyPrice, WhiskeyTrade } from 'src/app/entities';
 import { NotificationsService } from 'src/app/notifications.service';
 
