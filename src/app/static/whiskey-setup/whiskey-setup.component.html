@@ -19,8 +19,8 @@
                     <fa-icon class="icon" size="lg" title="Delete Whiskey" [icon]="faTimes" (click)="deleteWhiskey(whiskey)" style="cursor: pointer;"></fa-icon>
                   </div>
                 <div class="card-body">
-                    <h4 class="card-title">{{whiskey.name}}</h4>
-                    <p class="card-text">{{whiskey.description}}</p>
+                    <h4 class="card-title">{{whiskey.distiller}}</h4>
+                    <h4 class="card-text">{{whiskey.name}}</h4>
                     <p class="card-text"><small class="text-muted">Last updated {{convertDate(whiskey.updated)}}</small></p>
                     <p class="card-text text-center"><a (click)="showDetails(whiskey)" class="btn btn-dark">Show details</a></p>
                 </div>

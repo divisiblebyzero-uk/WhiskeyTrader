@@ -3,6 +3,7 @@ import { Whiskey } from 'src/app/entities';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { WhiskeysService } from 'src/app/Data/whiskeys.service';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   getWhiskeys(): void {
-    this.ws.list().subscribe(whiskeys => this.rowData = whiskeys.filter(w => w.active));
+    this.ws.list().subscribe(whiskeys => this.rowData = _.sortBy(whiskeys.filter(w => w.active), 'distiller', 'name'));
   }
 
   public addNewWhiskey(): void {

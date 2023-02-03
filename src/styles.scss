@@ -8,3 +8,7 @@
 @import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
 
 @import '~ngx-toastr/toastr';
+
+.preformatted-description {
+    white-space: pre-wrap;
+}
