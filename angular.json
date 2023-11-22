@@ -103,7 +103,6 @@
       }
     }
   },
-  "defaultProject": "WhiskeyTrader",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"
