@@ -54,12 +54,12 @@ export class TradesComponent implements OnInit {
       editable: true
     },
     onFirstDataRendered: this.onFirstDataRendered,
-    frameworkComponents: { 
-      dateTimeRenderer: DateTimeRenderer,
-      dropDownListRendererComponent: DropDownListRendererComponent,
-      deleteButtonRendererComponent: DeleteButtonComponent,
-      datePickerRendererComponent: DatePickerRendererComponent
-     },
+    //frameworkComponents: { 
+    //  dateTimeRenderer: DateTimeRenderer,
+    //  dropDownListRendererComponent: DropDownListRendererComponent,
+    //  deleteButtonRendererComponent: DeleteButtonComponent,
+    //  datePickerRendererComponent: DatePickerRendererComponent
+    // },
      context: { componentParent: this },
      api: null
   };
