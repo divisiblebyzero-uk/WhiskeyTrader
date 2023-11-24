@@ -75,7 +75,7 @@ export class TradesComponent implements OnInit {
   }
 
   getWhiskeyTrades(): void {
-
+    
     this.whiskeysService.list().subscribe(ws => {
       this.whiskeys = ws.filter(w => w.active);
       const columnDef = this.columnDefs.find(cd => "whiskeyId" == cd.field);

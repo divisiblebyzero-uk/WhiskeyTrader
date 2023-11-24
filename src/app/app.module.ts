@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.component';
 import { TableModule } from 'primeng/table';
 import { PriceGraphComponent } from './price-graph/price-graph.component';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth/auth-button/auth-button.component';
@@ -67,7 +68,8 @@ import { InputTextModule } from 'primeng/inputtext';
     ToastrModule.forRoot(),
     TableModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    TreeTableModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
