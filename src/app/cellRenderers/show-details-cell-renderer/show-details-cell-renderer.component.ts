@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+/*import { Component, OnInit } from '@angular/core';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-show-details-cell-renderer',
@@ -28,3 +26,4 @@ export class ShowDetailsCellRendererComponent implements ICellRendererAngularCom
     this.params?.context.componentParent.showDetails(this.params?.data);
   }
 }
+*/

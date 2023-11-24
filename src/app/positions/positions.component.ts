@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import { ColDef, GridOptions, RowClassParams, ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
 import { DatePickerRendererComponent } from '../cellRenderers/date-picker-renderer/date-picker-renderer.component';
 import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
 import { DeleteButtonComponent } from '../cellRenderers/delete-button/delete-button.component';
@@ -27,7 +27,7 @@ export class PositionsComponent implements OnInit {
   rowData: WhiskeyPosition[] | null = null;
   whiskeys: Whiskey[] | null = null;
 
-  columnDefs = [
+  columnDefs: ColDef[] = [
     { headerName: 'Whiskey Name', field: 'whiskeyId',
       cellEditor: 'dropDownListRendererComponent', cellEditorParams: this.whiskeys?this.whiskeys.filter(w => w.active):null,
       valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
@@ -45,8 +45,8 @@ export class PositionsComponent implements OnInit {
     { headerName: 'Open?', field: 'openPosition', valueFormatter: this.booleanFormatter }
   ];
 
-  gridOptions = {
-    getRowStyle: (params: ValueFormatterParams) => { return params.data.openPosition? {background: 'pink'}: {background: 'powderblue'} },
+  gridOptions: GridOptions = {
+    getRowStyle: (params: RowClassParams) => { return params.data.openPosition? {background: 'pink'}: {background: 'powderblue'} },
     defaultColDef: {
       resizable: true,
       sortable: true,
@@ -56,7 +56,7 @@ export class PositionsComponent implements OnInit {
       maxWidth: 75
     },
     onFirstDataRendered: this.onFirstDataRendered,
-    frameworkComponents: { 
+    components: { 
       dateTimeRenderer: DateTimeRenderer,
       dropDownListRendererComponent: DropDownListRendererComponent,
       deleteButtonRendererComponent: DeleteButtonComponent,

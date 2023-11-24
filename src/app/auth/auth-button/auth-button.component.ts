@@ -5,7 +5,7 @@ import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-auth-button',
   templateUrl: './auth-button.component.html',
-  styles: ['./auth-button.component.scss'],
+  styleUrls: ['./auth-button.component.scss'],
 })
 export class AuthButtonComponent {
   constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {}

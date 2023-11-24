@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Color, Label, ThemeService } from 'ng2-charts';
-import { ChartDataSets, ChartOptions, ChartPoint, ChartType } from 'chart.js';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartConfiguration, ChartType } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { WhiskeysService } from '../Data/whiskeys.service';
 
@@ -12,39 +11,41 @@ import { WhiskeysService } from '../Data/whiskeys.service';
 export class PriceGraphComponent implements OnInit {
 
   priceData: any = [];
-
-  public lineChartData: ChartDataSets[] = [];
-  public lineChartLabels: Label[] = [];
-  public lineChartOptions: (ChartOptions & { annotation: any }) = {
-    responsive: true,
-    scales: {
-      xAxes: [{ type: 'time', distribution: 'linear', time: { tooltipFormat: 'DD MMM YYYY', unit: 'day' } }],
-      yAxes: [
-        {
-          id: 'y-axis-0',
-          position: 'left',
-        }
-      ]
-    },
-    annotation: {
-      annotations: [
-      ],
-    },
-  };
-  public lineChartColors: Color[] = [
-    { // grey
+  public lineChartData: ChartConfiguration["data"] = { datasets: [ {
+    data: [],
       backgroundColor: 'rgba(148,159,177,0.2)',
       borderColor: 'rgba(148,159,177,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+  }] };
+
+  public lineChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    scales: {
+      x: { type: 'time', time: { tooltipFormat: 'DD MMM YYYY', unit: 'day' } },
+      y: 
+        {
+          position: 'left',
+        }
+      
     }
-  ];
+  };
+//  public lineChartColors: Color[] = [
+//    { // grey
+//      backgroundColor: 'rgba(148,159,177,0.2)',
+//      borderColor: 'rgba(148,159,177,1)',
+//      pointBackgroundColor: 'rgba(148,159,177,1)',
+//      pointBorderColor: '#fff',
+//      pointHoverBackgroundColor: '#fff',
+//      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+//    }
+//  ];
   public lineChartLegend = true;
   public lineChartType: ChartType = 'line';
 
-  public chart: any;
+  
 
 
   constructor(private whiskeysService: WhiskeysService, private route: ActivatedRoute) { }
@@ -53,25 +54,16 @@ export class PriceGraphComponent implements OnInit {
     this.route.params.subscribe(params => {
       const whiskeyId: string = params["id"];
       this.whiskeysService.getWhiskeyDetails(whiskeyId).then(whiskeyDetails => {
-        const data: ChartPoint[] = [];
-        const labels: Label[] = [];
         whiskeyDetails.prices.forEach(p => {
-          data.push({ y: p.price.toString(), t: p.date.toString() });
-          labels.push(p.date.toString());
+          console.log(p)
+          this.lineChartData.datasets[0].data.push(p.price);//({ y: p.price.toString(), t: p.date.toString() });
+          //labels.push(p.date.toString());
         });
-        this.setData(data, labels);
+        //this.setData(data, labels);
+        //this.chart.ngOnChanges({});
         });
     });
   }
 
-  public setData(data: ChartPoint[], labels: Label[]): void {
-    console.log("Setting data ...");
-    this.priceData = [{
-      label: 'Historic Prices',
-      data: data
-    }
-    ];
-    this.lineChartLabels = labels;
-  }
 
 }

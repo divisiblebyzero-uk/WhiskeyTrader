@@ -4,10 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-import { AgGridModule } from 'ag-grid-angular';
-import { DateTimeRenderer } from './cellRenderers/DateTimeRenderer';
 
 import { TradesComponent } from './trades/trades.component';
 import { PositionsComponent } from './positions/positions.component';
@@ -19,9 +15,7 @@ import { DeleteButtonComponent } from './cellRenderers/delete-button/delete-butt
 import { DatePickerRendererComponent } from './cellRenderers/date-picker-renderer/date-picker-renderer.component';
 import { FormsModule } from '@angular/forms';
 import { WhiskeyDetailsComponent } from './whiskey-details/whiskey-details.component';
-
-import { ChartsModule } from 'ng2-charts';
-import { ShowDetailsCellRendererComponent } from './cellRenderers/show-details-cell-renderer/show-details-cell-renderer.component';
+import { TableModule } from 'primeng/table';
 import { PriceGraphComponent } from './price-graph/price-graph.component';
 
 import { AuthModule } from '@auth0/auth0-angular';
@@ -36,6 +30,8 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -49,7 +45,6 @@ import { ToastrModule } from 'ngx-toastr';
     DeleteButtonComponent,
     DatePickerRendererComponent,
     WhiskeyDetailsComponent,
-    ShowDetailsCellRendererComponent,
     PriceGraphComponent,
     AuthButtonComponent,
     AccountInformationComponent,
@@ -60,10 +55,7 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     NgbModule,
     //AgGridModule.withComponents([DateTimeRenderer, DropDownListRendererComponent, DeleteButtonComponent, DatePickerRendererComponent]),
-    AgGridModule,
-    FontAwesomeModule,
     FormsModule,
-    ChartsModule,
     AuthModule.forRoot({
       ...env.auth,
       httpInterceptor: {
@@ -72,7 +64,10 @@ import { ToastrModule } from 'ngx-toastr';
     }),
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    TableModule,
+    ButtonModule,
+    InputTextModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

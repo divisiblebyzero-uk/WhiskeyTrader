@@ -5,8 +5,8 @@
                 <div class="card-block">
                     <h4 class="card-title" style="text-align: center;">Add</h4>
                     <h2 style="text-align: center;">
-                        <fa-icon size="3x" title="Add Whiskey" [icon]="faPlus" (click)="addNewWhiskey()"
-                            style="cursor: pointer;"></fa-icon>
+                        <i class="pi pi-plus" size="3x" title="Add Whiskey" (click)="addNewWhiskey()"
+                            style="cursor: pointer;"></i>
                     </h2>
                 </div>
             </div>
@@ -16,7 +16,7 @@
             <div class="card h-100">
                 <img src="assets/bottle.png" class="img-fluid card-img-top" />
                 <div class="overlay">
-                    <fa-icon class="icon" size="lg" title="Delete Whiskey" [icon]="faTimes" (click)="deleteWhiskey(whiskey)" style="cursor: pointer;"></fa-icon>
+                    <i class="pi pi-times" size="lg" title="Delete Whiskey" (click)="deleteWhiskey(whiskey)" style="cursor: pointer;"></i>
                   </div>
                 <div class="card-body">
                     <h4 class="card-title">{{whiskey.distiller}}</h4>

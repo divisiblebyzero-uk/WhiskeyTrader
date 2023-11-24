@@ -2,12 +2,12 @@
     <div class="col-md-10 offset-md-1" style="background-color: antiquewhite; padding-top: 10px; padding-bottom: 10px;">
         <div class="col">
             <span class="display-4">Whiskey Trades</span>
-            <fa-icon size="2x" title="Add Price" [icon]="faPlus" (click)="addNewWhiskeyTrade()" style="cursor: pointer;"></fa-icon>
+            <i class="pi pi-plus" size="2x" title="Add Price" (click)="addNewWhiskeyTrade()" style="cursor: pointer;"></i>
         </div>
     </div>
     <div class="row">
         <div class="col-md-10 offset-md-1">
-            <ag-grid-angular
+            <!--ag-grid-angular
                 #pricesGrid
                 style="height: 500px;"
                 class="ag-theme-alpine"
@@ -16,7 +16,7 @@
                 [gridOptions]="gridOptions"
                 (cellValueChanged)="saveEntry($event)"
             >
-            </ag-grid-angular>
+            </ag-grid-angular-->
         </div>
     </div>
 </div>

@@ -18,8 +18,8 @@ export class DateTimeRenderer implements ICellRendererAngularComp {
     agInit(params: ICellRendererParams): void {
         this.params = params;
         this.selectedDate = params.value;
-        if (typeof params.colDef.cellRendererParams != 'undefined') {
-            this.dateFormat = params.colDef.cellRendererParams;
+        if (typeof params.colDef?.cellRendererParams != 'undefined') {
+            this.dateFormat = params.colDef?.cellRendererParams;
         }
     }
 
@@ -33,7 +33,7 @@ export class DateTimeRenderer implements ICellRendererAngularComp {
 
     public onChange(event:any) {
         if (this.params) {
-            const field = this.params.colDef.field;
+            const field = this.params.colDef?.field;
             if (field) {
                 this.params.data[field] = event.currentTarget.checked;
             }

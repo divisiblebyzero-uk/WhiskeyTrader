@@ -1,14 +1,17 @@
-import { domain, clientId, audience, serverUrl } from './auth_config.dev.json';
+import {authconfig_dev as authconfig} from './auth_config';
 
 export const environment = {
-  production: false,
+  production: true,
   auth: {
-    domain,
-    clientId,
-    redirectUri: window.location.origin,
-    audience
+    domain: authconfig.domain,
+    clientId: authconfig.clientId,
+    authorizationParams: {
+      redirect_uri: window.location.origin,
+      audience: authconfig.audience
+    }
   },
   api: {
-    serverUrl
+    serverUrl: authconfig.serverUrl
   }
 };
+

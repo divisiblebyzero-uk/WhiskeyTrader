@@ -20,13 +20,13 @@ export class DropDownListRendererComponent implements ICellRendererAngularComp {
   agInit(params: ICellRendererParams): void {
       this.params = params;
       if (this.params) {
-        const field = this.params.colDef.field;
+        const field = this.params?.colDef?.field;
         if (field) {
             this.selectedItemID = this.params.data[field];
         }
       }
       
-      if (typeof params.colDef.cellEditorParams != 'undefined') {
+      if (typeof params?.colDef?.cellEditorParams != 'undefined') {
           this.items = params.colDef.cellEditorParams;
       }
   }

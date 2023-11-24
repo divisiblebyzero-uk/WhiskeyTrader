@@ -21,7 +21,7 @@ export class DatePickerRendererComponent implements OnInit, ICellRendererAngular
   agInit(params: any) {
     this.params = params;
     if (this.params) {
-      const field = this.params.colDef.field;
+      const field = this.params?.colDef?.field;
       if (field) {
         console.log(this.params.data[field]);
         const date:Date = new Date(this.params.data[field]);
