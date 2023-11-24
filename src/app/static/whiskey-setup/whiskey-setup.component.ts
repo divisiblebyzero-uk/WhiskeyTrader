@@ -27,6 +27,9 @@ interface WhiskeyTree {
 })
 export class WhiskeySetupComponent implements OnInit {
 
+  loading: boolean = true;
+  error: any
+
   whiskeyTree!: WhiskeyTree[];
   whiskeyPositions!: WhiskeyPosition[]
 
@@ -62,6 +65,7 @@ export class WhiskeySetupComponent implements OnInit {
           }
         })
         this.whiskeyTree = whiskeyTree;
+        this.loading = false
       });
     })
     
@@ -107,5 +111,10 @@ export class WhiskeySetupComponent implements OnInit {
       return Math.floor((timeDifference / 24 / 60 / 60 / 1000)) + " days ago";
     }
   }
+
+  public editPrices(whiskey: Whiskey): void {
+
+  }
+
 
 }

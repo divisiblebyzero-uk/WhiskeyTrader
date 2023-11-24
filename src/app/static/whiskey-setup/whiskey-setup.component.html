@@ -1,45 +1,58 @@
-<div class="card">
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">Error!</div>
+<div *ngIf="!loading">
 
-    <p-treeTable #wt [value]="whiskeyTree" [scrollable]="true" [filterMode]="'lenient'" [globalFilterFields]="['name']" [tableStyle]="{'min-width':'50rem'}">
-        <ng-template pTemplate="caption">
-            <div class="flex justify-content-end align-items-center" style="text-align: center">
-                <span class="mx-3 display-3">Whiskeys</span>
-                <div class="mx-3 p-input-icon-left align-text-bottom">
-                    <i class="pi pi-search"></i>
-                    <input #searchParameter type="text" pInputText placeholder="Global Search" (input)="wt.filterGlobal(searchParameter.value, 'contains')" />
+    <div class="card">
+
+        <p-treeTable #wt [value]="whiskeyTree" [scrollable]="true" [filterMode]="'lenient'"
+            [globalFilterFields]="['name']" [tableStyle]="{'min-width':'50rem'}">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-end align-items-center" style="text-align: center">
+                    <span class="mx-3 display-3">Whiskeys</span>
+                    <div class="mx-3 p-input-icon-left align-text-bottom">
+                        <i class="pi pi-search"></i>
+                        <input #searchParameter type="text" pInputText placeholder="Search"
+                            (input)="wt.filterGlobal(searchParameter.value, 'contains')" />
+                    </div>
+                    <button pButton label="Add Whiskey" class="p-button-outlined align-text-bottom" icon="pi pi-plus"
+                        (click)="addNewWhiskey()"></button>
                 </div>
-                <i class="mx-3 pi pi-plus align-text-bottom" size="3x" title="Add Whiskey" (click)="addNewWhiskey()" style="cursor: pointer;"></i>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th [ttSortableColumn]="'name'">Distiller / Whiskey<p-treeTableSortIcon [field]="'name'"></p-treeTableSortIcon></th>
-                <th>Bottles</th>
-                <th>Last Updated</th>
-                <th>&nbsp;</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-            <tr [ttRow]="rowNode" *ngIf="rowData.distiller">
-                <td>
-                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                    {{ rowData.name }}
-                </td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr [ttRow]="rowNode" *ngIf="!rowData.distiller">
-                <td>
-                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                    {{ rowData.name }}
-                </td>
-                <td>{{ rowData.bottles }}</td>
-                <td>{{ convertDate(rowData.updated) }}</td>
-                <td>
-                    <i class="mx-3 pi pi-pencil" title="Edit Whiskey" (click)="showDetails(rowData)" style="cursor: pointer;"></i>
-                    <i class="mx-3 pi pi-times" title="Delete Whiskey" (click)="deleteWhiskey(rowData)" style="cursor: pointer;"></i>
-                </td>
-            </tr>
-        </ng-template>
-    </p-treeTable>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [ttSortableColumn]="'name'">Distiller / Whiskey<p-treeTableSortIcon
+                            [field]="'name'"></p-treeTableSortIcon></th>
+                    <th>Bottles</th>
+                    <th>Last Updated</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr [ttRow]="rowNode" *ngIf="rowData.distiller">
+                    <td>
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        {{ rowData.name }}
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr [ttRow]="rowNode" *ngIf="!rowData.distiller">
+                    <td>
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        {{ rowData.name }}
+                    </td>
+                    <td>{{ rowData.bottles }}</td>
+                    <td>{{ convertDate(rowData.updated) }}</td>
+                    <td>
+                        <i class="mx-3 pi pi-dollar" title="Edit Prices" (click)="editPrices(rowData)"
+                            style="cursor: pointer;"></i>
+                        <i class="mx-3 pi pi-pencil" title="Edit Whiskey" (click)="showDetails(rowData)"
+                            style="cursor: pointer;"></i>
+                        <i class="mx-3 pi pi-times" title="Delete Whiskey" (click)="deleteWhiskey(rowData)"
+                            style="cursor: pointer;"></i>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-treeTable>
+    </div>
 </div>
