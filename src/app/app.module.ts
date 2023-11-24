@@ -33,6 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { EditWhiskeyComponent } from './widgets/edit-whiskey/edit-whiskey.component';
+import { EditWhiskeyLauncherComponent } from './widgets/edit-whiskey-launcher/edit-whiskey-launcher.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import { InputTextModule } from 'primeng/inputtext';
     PriceGraphComponent,
     AuthButtonComponent,
     AccountInformationComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    EditWhiskeyComponent,
+    EditWhiskeyLauncherComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,8 @@ import { InputTextModule } from 'primeng/inputtext';
     TableModule,
     ButtonModule,
     InputTextModule,
-    TreeTableModule
+    TreeTableModule,
+    DynamicDialogModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

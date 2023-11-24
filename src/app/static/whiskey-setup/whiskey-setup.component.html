@@ -14,8 +14,7 @@
                         <input #searchParameter type="text" pInputText placeholder="Search"
                             (input)="wt.filterGlobal(searchParameter.value, 'contains')" />
                     </div>
-                    <button pButton label="Add Whiskey" class="p-button-outlined align-text-bottom" icon="pi pi-plus"
-                        (click)="addNewWhiskey()"></button>
+                    <app-edit-whiskey-launcher></app-edit-whiskey-launcher>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
@@ -46,8 +45,7 @@
                     <td>
                         <i class="mx-3 pi pi-dollar" title="Edit Prices" (click)="editPrices(rowData)"
                             style="cursor: pointer;"></i>
-                        <i class="mx-3 pi pi-pencil" title="Edit Whiskey" (click)="showDetails(rowData)"
-                            style="cursor: pointer;"></i>
+                        <app-edit-whiskey-launcher [whiskey]="rowData"></app-edit-whiskey-launcher>
                         <i class="mx-3 pi pi-times" title="Delete Whiskey" (click)="deleteWhiskey(rowData)"
                             style="cursor: pointer;"></i>
                     </td>

@@ -4,8 +4,11 @@ import { Router } from '@angular/router';
 import { WhiskeysService } from 'src/app/Data/whiskeys.service';
 import * as _ from 'lodash';
 import { WhiskeyPositionCalculatorService } from 'src/app/whiskey-position-calculator.service';
+import { MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 interface WhiskeyTree {
+  expanded?: boolean,
   key: string,
   label: string,
   data: { name: string, distiller: boolean },
@@ -28,7 +31,7 @@ interface WhiskeyTree {
 export class WhiskeySetupComponent implements OnInit {
 
   loading: boolean = true;
-  error: any
+  error: any;
 
   whiskeyTree!: WhiskeyTree[];
   whiskeyPositions!: WhiskeyPosition[]
@@ -60,7 +63,7 @@ export class WhiskeySetupComponent implements OnInit {
             distiller.children.push(this.createWhiskeyNode(w));
           } else {
             whiskeyTree.push({
-              key: w.distiller, label: w.distiller, data: { name: w.distiller, distiller: true }, children: [ this.createWhiskeyNode(w) ]
+              expanded: true, key: w.distiller, label: w.distiller, data: { name: w.distiller, distiller: true }, children: [ this.createWhiskeyNode(w) ]
             })
           }
         })
@@ -71,18 +74,10 @@ export class WhiskeySetupComponent implements OnInit {
     
   }
 
-  public addNewWhiskey(): void {
-    this.ws.new("New Whiskey").subscribe((w: Whiskey) => { this.showDetails(w) });
-  }
-
   public deleteWhiskey(whiskey: Whiskey): void {
     if (confirm("Are you sure you want to delete this whiskey?")) {
       this.ws.delete(whiskey).subscribe(() => { this.getWhiskeys() });
     }
-  }
-
-  public showDetails(whiskey: Whiskey): void {
-    this.router.navigate(['/whiskey-details', whiskey.id]);
   }
 
   public convertDate(date: Date): string {
@@ -113,7 +108,6 @@ export class WhiskeySetupComponent implements OnInit {
   }
 
   public editPrices(whiskey: Whiskey): void {
-
   }
 
 
