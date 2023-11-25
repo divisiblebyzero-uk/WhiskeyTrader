@@ -36,6 +36,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { EditWhiskeyComponent } from './widgets/edit-whiskey/edit-whiskey.component';
 import { EditWhiskeyLauncherComponent } from './widgets/edit-whiskey-launcher/edit-whiskey-launcher.component';
+import { WhiskeyFullDetailsComponent } from './widgets/whiskey-full-details/whiskey-full-details.component';
+import { ChartModule } from 'primeng/chart'
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { EditWhiskeyLauncherComponent } from './widgets/edit-whiskey-launcher/ed
     AccountInformationComponent,
     WelcomeComponent,
     EditWhiskeyComponent,
-    EditWhiskeyLauncherComponent
+    EditWhiskeyLauncherComponent,
+    WhiskeyFullDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,8 @@ import { EditWhiskeyLauncherComponent } from './widgets/edit-whiskey-launcher/ed
     ButtonModule,
     InputTextModule,
     TreeTableModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    ChartModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

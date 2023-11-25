@@ -1,5 +1,6 @@
-<div>
-    Graph?
-<!--canvas baseChart [data]="priceData" 
-        [options]="lineChartOptions" [legend]="lineChartLegend" [type]="lineChartType"></canvas-->
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="!loading">
+    <div class="card">
+        <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
     </div>
+</div>

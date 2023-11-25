@@ -8,7 +8,7 @@ import { AdminComponent } from './static/admin/admin.component';
 import { WhiskeySetupComponent } from './static/whiskey-setup/whiskey-setup.component';
 import { TradesComponent } from './trades/trades.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { WhiskeyDetailsComponent} from './whiskey-details/whiskey-details.component';
+import { WhiskeyFullDetailsComponent } from './widgets/whiskey-full-details/whiskey-full-details.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent},
@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'trades', component: TradesComponent, canActivate: [AuthGuard]},
   {path: 'whiskey-setup', component: WhiskeySetupComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
-  {path: 'whiskey-details/:id', component: WhiskeyDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'whiskey-details/:id', component: WhiskeyFullDetailsComponent, canActivate: [AuthGuard]},
   {path: 'account-information', component: AccountInformationComponent, canActivate: [AuthGuard]}
 ];
 

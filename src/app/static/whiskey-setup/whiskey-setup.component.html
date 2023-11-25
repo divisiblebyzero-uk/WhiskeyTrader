@@ -19,7 +19,7 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [ttSortableColumn]="'name'">Distiller / Whiskey<p-treeTableSortIcon
+                    <th [ttSortableColumn]="'name'">Distiller / Expression<p-treeTableSortIcon
                             [field]="'name'"></p-treeTableSortIcon></th>
                     <th>Bottles</th>
                     <th>Last Updated</th>
@@ -38,7 +38,7 @@
                 <tr [ttRow]="rowNode" *ngIf="!rowData.distiller">
                     <td>
                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                        {{ rowData.name }}
+                        <span (click)="showDetails(rowData)" style="cursor: pointer;">{{ rowData.name }}</span>
                     </td>
                     <td>{{ rowData.bottles }}</td>
                     <td>{{ convertDate(rowData.updated) }}</td>

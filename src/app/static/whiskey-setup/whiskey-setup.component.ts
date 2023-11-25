@@ -110,5 +110,8 @@ export class WhiskeySetupComponent implements OnInit {
   public editPrices(whiskey: Whiskey): void {
   }
 
+  public showDetails(whiskey: Whiskey): void {
+    this.router.navigate(['/whiskey-details', whiskey.id]);
+  }
 
 }
