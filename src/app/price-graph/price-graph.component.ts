@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { WhiskeysService } from '../Data/whiskeys.service';
+import 'chartjs-adapter-date-fns';
 
 @Component({
   selector: 'app-price-graph',
@@ -11,6 +12,7 @@ import { WhiskeysService } from '../Data/whiskeys.service';
 export class PriceGraphComponent implements OnInit {
   loading: boolean = true;
 
+  priceData: any = [];
   basicData: any;
   labels: any = [];
   basicOptions: any;
@@ -36,8 +38,6 @@ export class PriceGraphComponent implements OnInit {
             {
               label: 'Prices',
               data: this.priceData,
-              //backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-              //borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
               borderWidth: 1,
               tension: .5
             }
@@ -64,7 +64,7 @@ export class PriceGraphComponent implements OnInit {
               }
             },
             x: {
-              type: 'time', distribution: 'linear', time: { tooltipFormat: 'DD MMM YYYY', unit: 'day' },
+              type: 'time', distribution: 'linear', time: { tooltipFormat: 'dd MMM yyyy', unit: 'month' },
               ticks: {
                 color: textColorSecondary
               },
@@ -82,58 +82,5 @@ export class PriceGraphComponent implements OnInit {
     });
   }
 
-
-
-
-
-
-
-
-
-
-
-  priceData: any = [];
-  public lineChartData: ChartConfiguration["data"] = {
-    datasets: [{
-      data: [],
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }]
-  };
-
-  public lineChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    scales: {
-      x: { type: 'time', time: { tooltipFormat: 'DD MMM YYYY', unit: 'day' } },
-      y:
-      {
-        position: 'left',
-      }
-
-    }
-  };
-  //  public lineChartColors: Color[] = [
-  //    { // grey
-  //      backgroundColor: 'rgba(148,159,177,0.2)',
-  //      borderColor: 'rgba(148,159,177,1)',
-  //      pointBackgroundColor: 'rgba(148,159,177,1)',
-  //      pointBorderColor: '#fff',
-  //      pointHoverBackgroundColor: '#fff',
-  //      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-  //    }
-  //  ];
-  public lineChartLegend = true;
-  public lineChartType: ChartType = 'line';
-
-
-
-
   constructor(private whiskeysService: WhiskeysService, private route: ActivatedRoute) { }
-
-
-
 }
