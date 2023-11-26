@@ -7,7 +7,7 @@
         <div class="row">
             <div class="card">
                 <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1"
-                    [globalFilterFields]="['whiskeyName', 'date', 'numberOfBottles', 'pricePerBottle']" #tradesTable>
+                    [globalFilterFields]="['distiller', 'whiskeyName', 'date', 'numberOfBottles', 'pricePerBottle']" #tradesTable>
                     <ng-template *ngIf="!whiskey" pTemplate="caption">
                         <div class="flex" style="text-align: center">
                             <span class="mx-3 display-3">Whiskey Trades</span>

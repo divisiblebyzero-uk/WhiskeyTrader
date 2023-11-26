@@ -1,20 +1,53 @@
-<div class="container-fluid">
-    <div class="row" style="background-color: antiquewhite; padding-top: 10px; padding-bottom: 10px;">
-        <div class="col">
-            <span class="display-4">Whiskey Holdings</span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <!--ag-grid-angular
-                #pricesGrid
-                style="width: 100%; height: 500px;"
-                class="ag-theme-balham"
-                [rowData]="rowData"
-                [columnDefs]="columnDefs"
-                [gridOptions]="gridOptions"
-            >
-            </ag-grid-angular-->
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">Error!</div>
+<div *ngIf="!loading">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card">
+                <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1" [globalFilterFields]="['distiller', 'whiskeyName', 'numberOfBottles', 'pricePerBottle', 'totalPurchases', 'totalSales', 'averagePricePerBottle', 'currentMarketPricePerBottle', 'profit', 'profitPerBottle', 'returnOnInvestment']" #positionsTable>
+                    <ng-template pTemplate="caption">
+                        <div class="flex" style="text-align: center">
+                            <span class="mx-3 display-3">Whiskey Holdings</span>
+                            <button pButton label="Clear" class="p-button-outlined align-text-bottom" icon="pi pi-filter-slash" (click)="clear(positionsTable)"></button>
+                            <span class="p-input-icon-left ml-auto align-text-bottom">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="globalFilterUpdate($event)" input="positionsTable.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="whiskeyName"> Distiller <p-sortIcon field="distiller"></p-sortIcon></th>
+                            <th pSortableColumn="whiskeyName"> Expression <p-sortIcon field="whiskeyName"></p-sortIcon></th>
+                            <th pSortableColumn="numberOfBottles" style="text-align: right"> Qty <p-sortIcon field="numberOfBottles"></p-sortIcon></th>
+                            <th pSortableColumn="pricePerBottle" style="text-align: right"> Price <p-sortIcon field="pricePerBottle"></p-sortIcon></th>
+                            <th pSortableColumn="totalPurchases" style="text-align: right"> Buy <p-sortIcon field="totalPurchases"></p-sortIcon></th>
+                            <th pSortableColumn="totalSales" style="text-align: right"> Sell <p-sortIcon field="totalSales"></p-sortIcon></th>
+                            <th pSortableColumn="averagePricePerBottle" style="text-align: right"> Avg Price <p-sortIcon field="averagePricePerBottle"></p-sortIcon></th>
+                            <th pSortableColumn="currentMarketPricePerBottle" style="text-align: right"> Mkt Price <p-sortIcon field="currentMarketPricePerBottle"></p-sortIcon></th>
+                            <th pSortableColumn="profit" style="text-align: right"> Profit <p-sortIcon field="fi"></p-sortIcon></th>
+                            <th pSortableColumn="profitPerBottle" style="text-align: right"> Profit/bottle <p-sortIcon field="profitPerBottle"></p-sortIcon></th>
+                            <th pSortableColumn="returnOnInvestment" style="text-align: right"> RoI <p-sortIcon field="returnOnInvestment"></p-sortIcon></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-position>
+                        <tr>
+                            <td>{{position.distiller}}</td>
+                            <td>{{position.whiskeyName}}</td>
+                            <td style="text-align: right">{{position.numberOfBottles}}</td>
+                            <td style="text-align: right">{{position.pricePerBottle|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.totalPurchases|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.totalSales|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.averagePricePerBottle|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.currentMarketPricePerBottle|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.profit|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.profitPerBottle|currency:'GBP'}}</td>
+                            <td style="text-align: right">{{position.returnOnInvestment|currency:'GBP'}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
         </div>
     </div>
 </div>
