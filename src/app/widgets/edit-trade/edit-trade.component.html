@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="row my-3">
+        <div class="col-md-6">
+            <label for="direction">Direction</label>
+            <p-selectButton class="float-end" [options]="stateOptions" [(ngModel)]="whiskeyTrade.direction" optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-md-6">
+            <label for="numberOfBottles">Number of bottles</label>
+            <p-inputNumber class="float-end" inputId="numberOfBottles" [(ngModel)]="whiskeyTrade.numberOfBottles"></p-inputNumber>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-md-6">
+            <label for="pricePerBottle">Price per bottle</label>
+            <p-inputNumber class="float-end" inputId="pricePerBottle" [(ngModel)]="whiskeyTrade.pricePerBottle" mode="currency" currency="GBP"></p-inputNumber>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-md-6">
+            <p-calendar [(ngModel)]="whiskeyTrade.date" [inline]="true" dataType="date"></p-calendar>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-md-6">
+            <button type="submit" (click)="saveWhiskeyTrade()" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</div>

@@ -20,10 +20,8 @@ export class EditPriceComponent implements OnInit{
 
   ngOnInit(): void {
     if (this.data.data.whiskeyPrice) {
-      console.log(JSON.stringify(this.data.data.whiskeyPrice));
       this.whiskeyPrice = {...this.data.data.whiskeyPrice};
       this.whiskeyPrice.date = new Date(this.whiskeyPrice.date)
-      console.log(JSON.stringify(this.data.data.whiskeyPrice));
     }
   }
 

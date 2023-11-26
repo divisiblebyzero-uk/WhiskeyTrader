@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { WhiskeyTradesService } from '../Data/whiskey-trades.service';
 import { WhiskeysService } from '../Data/whiskeys.service';
-import { Direction, Whiskey, WhiskeyTrade } from '../entities';
+import { Whiskey, WhiskeyTrade } from '../entities';
 import { Table } from 'primeng/table';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EditTradeComponent } from '../widgets/edit-trade/edit-trade.component';
 
 interface WhiskeyTradeWithDetails extends WhiskeyTrade {
   whiskeyName: string,
@@ -12,7 +14,8 @@ interface WhiskeyTradeWithDetails extends WhiskeyTrade {
 @Component({
   selector: 'app-trades',
   templateUrl: './trades.component.html',
-  styleUrls: ['./trades.component.scss']
+  styleUrls: ['./trades.component.scss'],
+  providers: [DialogService]
 })
 export class TradesComponent implements OnInit {
   loading: boolean = true;
@@ -20,8 +23,9 @@ export class TradesComponent implements OnInit {
   @ViewChild('tradesTable')
   tradesTable!: Table;
   directions: {id: number, name: string}[] = [];
+  ref!: DynamicDialogRef;
 
-  constructor(private whiskeyTradesService: WhiskeyTradesService, private whiskeysService: WhiskeysService) {
+  constructor(private whiskeyTradesService: WhiskeyTradesService, private whiskeysService: WhiskeysService, public dialogService: DialogService) {
     this.directions.push({id: 1, name: 'Buy'});
     this.directions.push({id: -1, name: 'Sell'});
   }
@@ -68,14 +72,25 @@ export class TradesComponent implements OnInit {
   }
 
   addTrade(): void {
-    if (this.whiskeys) {
 
-//      this.whiskeyTradesService.new(this.whiskeys[0], 1, 0, Direction.Buy).subscribe(() => this.getWhiskeyTrades());
+    if (this.whiskey) {
+      const newWhiskeyTrade: WhiskeyTrade = {
+        id: this.whiskeyTradesService.getNewId(),
+        whiskeyId: this.whiskey!.id,
+        date: new Date(),
+        numberOfBottles: 0,
+        pricePerBottle: 0,
+        direction: 1,
+        active: true
+      }
+      this.ref = this.dialogService.open(EditTradeComponent, { header: 'Add Trade', width: '70%', contentStyle: { overflow: 'auto' }, baseZIndex: 10000, maximizable: true, data: { whiskeyTrade: newWhiskeyTrade } });
+    } else {
+      console.log("Add price invoked without reference to a whiskey")
     }
   }
 
   editTrade(trade: WhiskeyTrade): void {
-
+    this.ref = this.dialogService.open(EditTradeComponent, { header: 'Edit Trade', width: '70%', contentStyle: { overflow: 'auto' }, baseZIndex: 10000, maximizable: true, data: { whiskeyTrade: trade } });
   }
 
   public delete(whiskeyTrade: WhiskeyTrade): void {

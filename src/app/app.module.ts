@@ -45,6 +45,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 import { EditTradesComponent } from './widgets/edit-trades/edit-trades.component';
 import { EditTradesLauncherComponent } from './widgets/edit-trades-launcher/edit-trades-launcher.component';
+import { EditTradeComponent } from './widgets/edit-trade/edit-trade.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,8 @@ import { EditTradesLauncherComponent } from './widgets/edit-trades-launcher/edit
     EditPricesComponent,
     EditPriceComponent,
     EditTradesComponent,
-    EditTradesLauncherComponent
+    EditTradesLauncherComponent,
+    EditTradeComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ import { EditTradesLauncherComponent } from './widgets/edit-trades-launcher/edit
     DynamicDialogModule,
     ChartModule,
     InputNumberModule,
-    CalendarModule
+    CalendarModule,
+    SelectButtonModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
