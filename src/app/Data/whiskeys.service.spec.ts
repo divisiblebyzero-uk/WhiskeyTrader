@@ -59,7 +59,7 @@ describe('Whiskeys Service', () => {
     httpMock = TestBed.inject(HttpTestingController);
 
     notificationsService = TestBed.inject(NotificationsService);
-    spyOn(notificationsService, "showError");
+    jest.spyOn(notificationsService, "showError");
   });
 
   it('should be created', () => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WhiskeyTradesService } from 'src/app/Data/whiskey-trades.service';
-import { Direction, WhiskeyTrade } from 'src/app/entities';
+import { WhiskeyTrade } from 'src/app/entities';
 
 @Component({
   selector: 'app-edit-trade',

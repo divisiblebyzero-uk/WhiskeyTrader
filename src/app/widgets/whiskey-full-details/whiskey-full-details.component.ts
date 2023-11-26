@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WhiskeysService } from 'src/app/Data/whiskeys.service';
-import { Whiskey, WhiskeyDetails } from 'src/app/entities';
+import { Whiskey } from 'src/app/entities';
 import { PriceGraphComponent } from 'src/app/price-graph/price-graph.component';
 
 @Component({
