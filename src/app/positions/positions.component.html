@@ -8,7 +8,7 @@
                 <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1" [globalFilterFields]="['distiller', 'whiskeyName', 'numberOfBottles', 'pricePerBottle', 'totalPurchases', 'totalSales', 'averagePricePerBottle', 'currentMarketPricePerBottle', 'profit', 'profitPerBottle', 'returnOnInvestment']" #positionsTable>
                     <ng-template pTemplate="caption">
                         <div class="flex" style="text-align: center">
-                            <span class="mx-3 display-3">Whiskey Holdings</span>
+                            <span class="mx-3 display-5">Whiskey Holdings</span>
                             <button pButton label="Clear" class="p-button-outlined align-text-bottom" icon="pi pi-filter-slash" (click)="clear(positionsTable)"></button>
                             <span class="p-input-icon-left ml-auto align-text-bottom">
                                 <i class="pi pi-search"></i>
@@ -18,7 +18,7 @@
                     </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="whiskeyName"> Distiller <p-sortIcon field="distiller"></p-sortIcon></th>
+                            <th pSortableColumn="distiller"> Distiller <p-sortIcon field="distiller"></p-sortIcon></th>
                             <th pSortableColumn="whiskeyName"> Expression <p-sortIcon field="whiskeyName"></p-sortIcon></th>
                             <th pSortableColumn="numberOfBottles" style="text-align: right"> Qty <p-sortIcon field="numberOfBottles"></p-sortIcon></th>
                             <th pSortableColumn="pricePerBottle" style="text-align: right"> Price <p-sortIcon field="pricePerBottle"></p-sortIcon></th>

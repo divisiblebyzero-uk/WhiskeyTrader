@@ -63,7 +63,7 @@ export class WhiskeySetupComponent implements OnInit {
             distiller.children.push(this.createWhiskeyNode(w));
           } else {
             whiskeyTree.push({
-              expanded: true, key: w.distiller, label: w.distiller, data: { name: w.distiller, distiller: true }, children: [ this.createWhiskeyNode(w) ]
+              expanded: false, key: w.distiller, label: w.distiller, data: { name: w.distiller, distiller: true }, children: [ this.createWhiskeyNode(w) ]
             })
           }
         })

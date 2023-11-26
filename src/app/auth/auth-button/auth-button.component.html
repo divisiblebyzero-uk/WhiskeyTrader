@@ -6,7 +6,7 @@
 
         <div ngbDropdownMenu>
             <button ngbDropdownItem routerLink="account-information" routerLinkActive="active">My account</button>
-            <button ngbDropdownItem (click)="auth.logout()">
+            <button ngbDropdownItem (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
                 Log out
             </button>
         </div>

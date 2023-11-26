@@ -6,31 +6,24 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card">
-                <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1"
-                    [globalFilterFields]="['whiskeyName', 'date', 'price']" #pricesTable>
+                <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1" [globalFilterFields]="['distiller', 'whiskeyName', 'date', 'price']" #pricesTable>
                     <ng-template *ngIf="!whiskey" pTemplate="caption">
                         <div class="flex" style="text-align: center">
-                            <span class="mx-3 display-3">Whiskey Prices</span>
-                            <button pButton label="Clear" class="p-button-outlined align-text-bottom"
-                                icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
+                            <span class="mx-3 display-5">Whiskey Prices</span>
+                            <button pButton label="Clear" class="p-button-outlined align-text-bottom" icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
                             <span class="p-input-icon-left ml-auto align-text-bottom">
                                 <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="globalFilterUpdate($event)"
-                                    input="pricesTable.filterGlobal($event.target.value, 'contains')"
-                                    placeholder="Search keyword" />
+                                <input pInputText type="text" (input)="globalFilterUpdate($event)" input="pricesTable.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
                             </span>
                         </div>
                     </ng-template>
                     <ng-template *ngIf="whiskey" pTemplate="caption">
                         <div class="flex" style="text-align: center">
-                            <span class="mx-3 display-3">{{whiskey.name}} Prices</span>
-                            <button pButton label="Clear" class="p-button-outlined align-text-bottom"
-                                icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
+                            <span class="mx-3 display-5">{{whiskey.name}} Prices</span>
+                            <button pButton label="Clear" class="p-button-outlined align-text-bottom" icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
                             <span class="p-input-icon-left ml-auto align-text-bottom">
                                 <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="globalFilterUpdate($event)"
-                                    input="pricesTable.filterGlobal($event.target.value, 'contains')"
-                                    placeholder="Search keyword" />
+                                <input pInputText type="text" (input)="globalFilterUpdate($event)" input="pricesTable.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
                             </span>
                             <button pButton label="Add Price" class="p-button-outlined align-text-bottom" icon="pi pi-plus" (click)="addPrice()"></button>
                         </div>
@@ -38,10 +31,8 @@
                     <ng-template pTemplate="header">
                         <tr>
 
-                            <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Distiller <p-sortIcon
-                                    field="distiller"></p-sortIcon></th>
-                            <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Expression <p-sortIcon
-                                    field="whiskeyName"></p-sortIcon></th>
+                            <th *ngIf="!whiskey" pSortableColumn="distiller"> Distiller <p-sortIcon field="distiller"></p-sortIcon></th>
+                            <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Expression <p-sortIcon field="whiskeyName"></p-sortIcon></th>
                             <th pSortableColumn="date"> Date <p-sortIcon field="date"></p-sortIcon></th>
                             <th pSortableColumn="price"> Price <p-sortIcon field="price"></p-sortIcon></th>
                             <th>&nbsp;</th>

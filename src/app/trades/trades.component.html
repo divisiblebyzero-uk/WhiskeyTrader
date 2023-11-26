@@ -10,7 +10,7 @@
                     [globalFilterFields]="['distiller', 'whiskeyName', 'date', 'numberOfBottles', 'pricePerBottle']" #tradesTable>
                     <ng-template *ngIf="!whiskey" pTemplate="caption">
                         <div class="flex" style="text-align: center">
-                            <span class="mx-3 display-3">Whiskey Trades</span>
+                            <span class="mx-3 display-5">Whiskey Trades</span>
                             <button pButton label="Clear" class="p-button-outlined align-text-bottom" icon="pi pi-filter-slash" (click)="clear(tradesTable)"></button>
                             <span class="p-input-icon-left ml-auto align-text-bottom">
                                 <i class="pi pi-search"></i>
@@ -20,7 +20,7 @@
                     </ng-template>
                     <ng-template *ngIf="whiskey" pTemplate="caption">
                         <div class="flex" style="text-align: center">
-                            <span class="mx-3 display-3">{{whiskey.name}} Trades</span>
+                            <span class="mx-3 display-5">{{whiskey.name}} Trades</span>
                             <button pButton label="Clear" class="p-button-outlined align-text-bottom" icon="pi pi-filter-slash" (click)="clear(tradesTable)"></button>
                             <span class="p-input-icon-left ml-auto align-text-bottom">
                                 <i class="pi pi-search"></i>
@@ -32,7 +32,7 @@
                     <ng-template pTemplate="header">
                         <tr>
 
-                            <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Distiller <p-sortIcon field="distiller"></p-sortIcon></th>
+                            <th *ngIf="!whiskey" pSortableColumn="distiller"> Distiller <p-sortIcon field="distiller"></p-sortIcon></th>
                             <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Expression <p-sortIcon field="whiskeyName"></p-sortIcon></th>
                             <th pSortableColumn="directionString"> Buy/Sell <p-sortIcon field="directionString"></p-sortIcon></th>
                             <th pSortableColumn="numberOfBottles"> Qty <p-sortIcon field="numberOfBottles"></p-sortIcon></th>
