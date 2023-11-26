@@ -1,32 +1,38 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { GridOptions, ValueGetterParams, ValueSetterParams } from 'ag-grid-community';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Whiskey, WhiskeyPrice } from '../entities';
-import { DateTimeRenderer } from '../cellRenderers/DateTimeRenderer';
-import { DropDownListRendererComponent } from '../cellRenderers/drop-down-list-renderer/drop-down-list-renderer.component';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WhiskeysService } from '../Data/whiskeys.service';
 import { WhiskeyPricesService } from '../Data/whiskey-prices.service';
 import { Table } from 'primeng/table';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EditPriceComponent } from '../widgets/edit-price/edit-price.component';
 
-export interface WhiskeyPriceWithName extends WhiskeyPrice {
-  whiskeyName: string
+export interface WhiskeyPriceWithDetails extends WhiskeyPrice {
+  whiskeyName: string,
+  distiller: string
 }
 @Component({
   selector: 'app-prices',
   templateUrl: './prices.component.html',
-  styleUrls: ['./prices.component.scss']
+  styleUrls: ['./prices.component.scss'],
+  providers: [DialogService]
 })
 export class PricesComponent implements OnInit {
-  faPlus = faPlus;
+  loading: boolean = true;
+  error: any;
 
-  @ViewChild('pricesTable') pricesTable!:Table;
+  @ViewChild('pricesTable') pricesTable!: Table;
+  rowData: WhiskeyPriceWithDetails[] = [];
+  whiskeys: Whiskey[] | null = null;
 
-  // With help from https://www.codeproject.com/Articles/5266363/agGrid-for-Angular-The-Missing-Manual
+  @Input('whiskey')
+  whiskey?: Whiskey | null
 
-  constructor(private whiskeysService: WhiskeysService, private whiskeyPricesService: WhiskeyPricesService) {
+  ref!: DynamicDialogRef;
+
+  constructor(private whiskeysService: WhiskeysService, private whiskeyPricesService: WhiskeyPricesService, public dialogService: DialogService) {
   }
 
-  globalFilterUpdate(event:any) {
+  globalFilterUpdate(event: any) {
     console.log(JSON.stringify(event.target.value))
     this.pricesTable.filterGlobal(event.target.value, 'contains');
   }
@@ -35,76 +41,34 @@ export class PricesComponent implements OnInit {
     table.clear();
   }
 
-  rowData: WhiskeyPriceWithName[]= [];
-  whiskeys: Whiskey[] | null = null;
 
-  getWhiskeyName(price: WhiskeyPrice): string {
-    return this.whiskeys?.find(w => w.id == price.whiskeyId)?.name || ""
-  }
-
-  columnDefs = [
-    //{ field: 'id' },
-    { headerName: 'Whiskey Name', field: 'whiskeyId',
-      cellEditor: 'dropDownListRendererComponent', cellEditorParams: <Whiskey[]>[],
-      valueGetter: (params: ValueGetterParams) => this.whiskeys?.find(w => w.id == params.data.whiskeyId)?.name,
-    },
-    { field: 'date', cellRenderer: 'dateTimeRenderer', cellRendererParams: 'MMM-yy', cellEditor: 'datePickerRendererComponent' },
-    { field: 'price' },
-    { cellRenderer: 'deleteButtonRendererComponent'}
-  ];
-
-  gridOptions: GridOptions = {
-    defaultColDef: {
-      resizable: true,
-      sortable: true,
-      filter: true,
-      editable: true
-    },
-    onFirstDataRendered: this.onFirstDataRendered,
-    //frameworkComponents: { 
-    //  dateTimeRenderer: DateTimeRenderer,
-    //  dropDownListRendererComponent: DropDownListRendererComponent,
-    //  deleteButtonRendererComponent: DeleteButtonComponent,
-    //  datePickerRendererComponent: DatePickerRendererComponent
-    // },
-     context: { componentParent: this },
-     api: null
-  };
-
-  onFirstDataRendered(params:any) {
-    params.api.sizeColumnsToFit();
+  addWhiskeyDetails(price: WhiskeyPrice): WhiskeyPriceWithDetails {
+    const w: Whiskey | undefined = this.whiskeys?.find(w => w.id == price.whiskeyId);
+    if (w) {
+      return { ...price, whiskeyName: w.name, distiller: w.distiller }
+    } else {
+      console.log("Error - whiskey not found: " + price.whiskeyId)
+      return { ...price, whiskeyName: "", distiller: "" }
+    }
   }
 
   ngOnInit(): void {
+    console.log("Got: " + JSON.stringify(this.whiskey))
     this.getWhiskeyPrices();
   }
 
-  comparePrices(a: WhiskeyPrice, b: WhiskeyPrice): number {
-    if (a.whiskeyId == b.whiskeyId) {
-      return (new Date(b.date).getTime() - new Date(a.date).getTime());
-    } else {
-      return a.whiskeyId>b.whiskeyId?1:-1;
-    }
-  }
-
   getWhiskeyPrices(): void {
-    this.whiskeysService.list().subscribe(ws => {
-      this.whiskeys = ws.filter(w => w.active);
-      const columnDef = this.columnDefs.find(cd => "whiskeyId" == cd.field);
-      if (columnDef) columnDef.cellEditorParams = this.whiskeys;
-      this.gridOptions.api?.setColumnDefs(this.columnDefs);
-
+    this.whiskeysService.list().subscribe(whiskeys => {
+      this.whiskeys = whiskeys;
       this.whiskeyPricesService.list().subscribe(prices => {
-        this.rowData = prices.filter(wp => wp.active).map(p => { return { ...p, whiskeyName: this.getWhiskeyName(p)} });
-        this.rowData.sort(this.comparePrices)
+        if (this.whiskey) {
+          this.rowData = prices.filter(wp => wp.whiskeyId === this.whiskey?.id).filter(wp => wp.active).map(p => { return this.addWhiskeyDetails(p) });
+        } else {
+          this.rowData = prices.filter(wp => wp.active).map(p => { return this.addWhiskeyDetails(p) });
+        }
+        this.loading = false;
       });
-    });
-  }
-
-  addNewWhiskeyPrice(): void {
-    if (this.whiskeys) {
-      this.whiskeyPricesService.new(this.whiskeys[0]).subscribe(wp => this.getWhiskeyPrices());
-    }
+    })
   }
 
   public delete(whiskeyPrice: WhiskeyPrice): void {
@@ -113,7 +77,22 @@ export class PricesComponent implements OnInit {
     }
   }
 
-  public saveEntry(event: any): void {
-    this.whiskeyPricesService.save(event.data).subscribe(() => this.getWhiskeyPrices());
+  public editPrice(whiskeyPrice: WhiskeyPrice): void {
+    this.ref = this.dialogService.open(EditPriceComponent, { header: 'Edit Price', width: '70%', contentStyle: { overflow: 'auto' }, baseZIndex: 10000, maximizable: true, data: { whiskeyPrice: whiskeyPrice } });
+  }
+
+  public addPrice(): void {
+    if (this.whiskey) {
+      const newWhiskeyPrice: WhiskeyPrice = {
+        id: this.whiskeyPricesService.getNewId(),
+        whiskeyId: this.whiskey!.id,
+        date: new Date(),
+        price: 0,
+        active: true
+      }
+      this.ref = this.dialogService.open(EditPriceComponent, { header: 'Add Price', width: '70%', contentStyle: { overflow: 'auto' }, baseZIndex: 10000, maximizable: true, data: { whiskeyPrice: newWhiskeyPrice } });
+    } else {
+      console.log("Add price invoked without reference to a whiskey")
+    }
   }
 }

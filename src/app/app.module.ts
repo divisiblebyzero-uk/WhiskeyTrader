@@ -37,7 +37,12 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { EditWhiskeyComponent } from './widgets/edit-whiskey/edit-whiskey.component';
 import { EditWhiskeyLauncherComponent } from './widgets/edit-whiskey-launcher/edit-whiskey-launcher.component';
 import { WhiskeyFullDetailsComponent } from './widgets/whiskey-full-details/whiskey-full-details.component';
-import { ChartModule } from 'primeng/chart'
+import { ChartModule } from 'primeng/chart';
+import { EditPricesLauncherComponent } from './widgets/edit-prices-launcher/edit-prices-launcher.component';
+import { EditPricesComponent } from './widgets/edit-prices/edit-prices.component';
+import { EditPriceComponent } from './widgets/edit-price/edit-price.component'
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -57,7 +62,10 @@ import { ChartModule } from 'primeng/chart'
     WelcomeComponent,
     EditWhiskeyComponent,
     EditWhiskeyLauncherComponent,
-    WhiskeyFullDetailsComponent
+    WhiskeyFullDetailsComponent,
+    EditPricesLauncherComponent,
+    EditPricesComponent,
+    EditPriceComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +87,9 @@ import { ChartModule } from 'primeng/chart'
     InputTextModule,
     TreeTableModule,
     DynamicDialogModule,
-    ChartModule
+    ChartModule,
+    InputNumberModule,
+    CalendarModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

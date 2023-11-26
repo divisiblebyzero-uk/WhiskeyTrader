@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <div class="row my-2">
+        <div class="col">Date</div>
+        <div class="col">Price</div>
+    </div>
+    <div class="row my-2">
+        <div class="col"><p-calendar [(ngModel)]="whiskeyPrice.date" [inline]="true" dataType="date"></p-calendar></div>
+        <div class="col"><p-inputNumber [(ngModel)]="whiskeyPrice.price" mode="currency" currency="GBP" (keyup.enter)="savePrice()"></p-inputNumber></div>
+    </div>
+    <div class="row my-2">
+        <div class="col"><button pButton class="p-button-outlined" (click)="savePrice()">Save</button></div>
+        <div class="col">&nbsp;</div>
+    </div>
+</div>

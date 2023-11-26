@@ -22,7 +22,6 @@ export class PriceGraphComponent implements OnInit {
       const whiskeyId: string = params["id"];
       this.whiskeysService.getWhiskeyDetails(whiskeyId).then(whiskeyDetails => {
         whiskeyDetails.prices.forEach(p => {
-          console.log(p)
           this.priceData.push(p.price);
           this.labels.push(p.date.toString());
         });

@@ -1,51 +1,66 @@
-<div class="container-fluid">
-    
-    <div class="jumbotron">
-        <span class="display-4">Whiskey Prices</span>
-        <i class="pi pi-plus" size="3x" title="Add Price" (click)="addNewWhiskeyPrice()" style="cursor: pointer;"></i>
-    </div>
-    <div class="row">
-        <div class="card">
-            <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1"
-            [globalFilterFields]="['whiskeyName', 'date', 'price']"
-            #pricesTable
-            >
-                <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
-                        <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="globalFilterUpdate($event)" input="pricesTable.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                        </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="whiskeyName">  Name        <p-sortIcon field="whiskeyName"></p-sortIcon></th>
-                        <th pSortableColumn="date">         Date        <p-sortIcon field="date"></p-sortIcon></th>
-                        <th pSortableColumn="price">        Price       <p-sortIcon field="price"></p-sortIcon></th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-price>
-                    <tr>
-                        <td>{{price.whiskeyName}}</td>
-                        <td>{{price.date|date:'YYYY-MMM-dd'}}</td>
-                        <td>{{price.price|currency:'GBP'}}</td>
-                        <td><i class="pi pi-trash" size="2x" title="Delete" (click)="delete(price)" style="cursor: pointer;"></i></td>
-                    </tr>
-                </ng-template>
-            </p-table>
-            <!--ag-grid-angular
-                #pricesGrid
-                style="height: 500px;"
-                class="ag-theme-alpine"
-                [rowData]="rowData"
-                [columnDefs]="columnDefs"
-                [gridOptions]="gridOptions"
-                (cellValueChanged)="saveEntry($event)"
-            >
-            </ag-grid-angular-->
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">Error!</div>
+<div *ngIf="!loading">
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card">
+                <p-table [value]="rowData" [tableStyle]="{ 'min-width': '50rem' }" sortField="date" [sortOrder]="-1"
+                    [globalFilterFields]="['whiskeyName', 'date', 'price']" #pricesTable>
+                    <ng-template *ngIf="!whiskey" pTemplate="caption">
+                        <div class="flex" style="text-align: center">
+                            <span class="mx-3 display-3">Whiskey Prices</span>
+                            <button pButton label="Clear" class="p-button-outlined align-text-bottom"
+                                icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
+                            <span class="p-input-icon-left ml-auto align-text-bottom">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="globalFilterUpdate($event)"
+                                    input="pricesTable.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search keyword" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template *ngIf="whiskey" pTemplate="caption">
+                        <div class="flex" style="text-align: center">
+                            <span class="mx-3 display-3">{{whiskey.name}} Prices</span>
+                            <button pButton label="Clear" class="p-button-outlined align-text-bottom"
+                                icon="pi pi-filter-slash" (click)="clear(pricesTable)"></button>
+                            <span class="p-input-icon-left ml-auto align-text-bottom">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="globalFilterUpdate($event)"
+                                    input="pricesTable.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search keyword" />
+                            </span>
+                            <button pButton label="Add Price" class="p-button-outlined align-text-bottom" icon="pi pi-plus" (click)="addPrice()"></button>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Distiller <p-sortIcon
+                                    field="distiller"></p-sortIcon></th>
+                            <th *ngIf="!whiskey" pSortableColumn="whiskeyName"> Expression <p-sortIcon
+                                    field="whiskeyName"></p-sortIcon></th>
+                            <th pSortableColumn="date"> Date <p-sortIcon field="date"></p-sortIcon></th>
+                            <th pSortableColumn="price"> Price <p-sortIcon field="price"></p-sortIcon></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-price>
+                        <tr>
+                            <td *ngIf="!whiskey">{{price.distiller}}</td>
+                            <td *ngIf="!whiskey">{{price.whiskeyName}}</td>
+                            <td>{{price.date|date:'YYYY-MMM-dd'}}</td>
+                            <td>{{price.price|currency:'GBP'}}</td>
+                            <td>
+                                <i class="mx-3 pi pi-pencil" title="Edit Price" (click)="editPrice(price)" style="cursor: pointer;"></i>
+                                <i class="mx-3 pi pi-trash" title="Delete" (click)="delete(price)" style="cursor: pointer;"></i>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
         </div>
     </div>
 </div>

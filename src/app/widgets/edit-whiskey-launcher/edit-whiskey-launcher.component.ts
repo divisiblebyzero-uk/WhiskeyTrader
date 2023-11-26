@@ -23,7 +23,7 @@ export class EditWhiskeyLauncherComponent {
 
 
   public showDetails(whiskey: Whiskey): void {
-    this.ref = this.dialogService.open(EditWhiskeyComponent, { header: 'Add new Whiskey', width: '70%', contentStyle: { overflow: 'auto' }, baseZIndex: 10000, maximizable: true, data: { whiskey: whiskey } });
+    this.ref = this.dialogService.open(EditWhiskeyComponent, { header: 'Edit Whiskey', width: '70%', contentStyle: { overflow: 'auto' }, baseZIndex: 10000, maximizable: true, data: { whiskey: whiskey } });
   }
 
 }

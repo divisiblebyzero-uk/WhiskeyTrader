@@ -60,10 +60,6 @@ export class WhiskeyPositionCalculatorService {
             const buyTrades = JSON.parse(JSON.stringify(trades.filter(t => t.direction == Direction.Buy)));
             const sellTrades = JSON.parse(JSON.stringify(trades.filter(t => t.direction == Direction.Sell)));
   
-            console.log(JSON.stringify(trades));
-            console.log(JSON.stringify(buyTrades));
-            console.log(JSON.stringify(sellTrades));
-  
             var numberOfBottles = 0;
             var totalPurchases = 0;
             var totalSales = 0;
