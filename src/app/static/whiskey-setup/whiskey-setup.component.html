@@ -43,10 +43,10 @@
                     <td>{{ rowData.bottles }}</td>
                     <td>{{ convertDate(rowData.updated) }}</td>
                     <td>
-                        <app-edit-prices-launcher [whiskey]="rowData"></app-edit-prices-launcher>
                         <app-edit-whiskey-launcher [whiskey]="rowData"></app-edit-whiskey-launcher>
-                        <i class="mx-3 pi pi-times" title="Delete Whiskey" (click)="deleteWhiskey(rowData)"
-                            style="cursor: pointer;"></i>
+                        <app-edit-prices-launcher [whiskey]="rowData"></app-edit-prices-launcher>
+                        <app-edit-trades-launcher [whiskey]="rowData"></app-edit-trades-launcher>
+                        <i class="mx-3 pi pi-times" title="Delete Whiskey" (click)="deleteWhiskey(rowData)" style="cursor: pointer;"></i>
                     </td>
                 </tr>
             </ng-template>

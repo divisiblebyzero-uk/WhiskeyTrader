@@ -113,5 +113,4 @@ export class WhiskeySetupComponent implements OnInit {
   public showDetails(whiskey: Whiskey): void {
     this.router.navigate(['/whiskey-details', whiskey.id]);
   }
-
 }

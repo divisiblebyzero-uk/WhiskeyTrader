@@ -43,6 +43,8 @@ import { EditPricesComponent } from './widgets/edit-prices/edit-prices.component
 import { EditPriceComponent } from './widgets/edit-price/edit-price.component'
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
+import { EditTradesComponent } from './widgets/edit-trades/edit-trades.component';
+import { EditTradesLauncherComponent } from './widgets/edit-trades-launcher/edit-trades-launcher.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { CalendarModule } from 'primeng/calendar';
     WhiskeyFullDetailsComponent,
     EditPricesLauncherComponent,
     EditPricesComponent,
-    EditPriceComponent
+    EditPriceComponent,
+    EditTradesComponent,
+    EditTradesLauncherComponent
   ],
   imports: [
     BrowserModule,
