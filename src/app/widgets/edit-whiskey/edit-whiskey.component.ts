@@ -13,20 +13,31 @@ export class EditWhiskeyComponent implements OnInit{
     
   }
 
-  public whiskey: Whiskey = {
-    id: this.whiskeysService.getNewId(),
-    name: '',
-    distiller: '',
-    description: '',
-    updated: new Date(),
-    created: new Date(),
-    active: true
+  whiskey!: Whiskey;
+  loading: boolean = true;
+  error: any;
+
+  public createNewWhiskey(): Whiskey {
+    return {
+      id: this.whiskeysService.getNewId(),
+      name: '',
+      distiller: '',
+      description: '',
+      updated: new Date(),
+      created: new Date(),
+      active: true
+    }
   };
 
   private loadData(): void {
     if (this.data.data.whiskey) {
-      console.log(JSON.stringify(this.data.data.whiskey));
-      this.whiskeysService.get(this.data.data.whiskey.id).subscribe(w => this.whiskey = w);
+      this.whiskeysService.get(this.data.data.whiskey.id).subscribe(w => {
+        this.whiskey = w
+        this.loading = false
+      });
+    } else {
+      this.whiskey = this.createNewWhiskey();
+      this.loading = false;
     }
   }
 

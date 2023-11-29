@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../environments/environment'
 
 @Component({
   selector: 'app-root',
@@ -8,5 +8,6 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AppComponent {
   title = 'WhiskeyTrader';
+  appVersion = environment.appVersion;
   public isMenuCollapsed = true;
 }

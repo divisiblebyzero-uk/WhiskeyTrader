@@ -12,6 +12,7 @@ export const environment = {
   },
   api: {
     serverUrl: authconfig.serverUrl
-  }
+  },
+  appVersion: require('../../package.json').version
 };
 
